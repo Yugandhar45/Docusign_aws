@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/python
 
 trigger:
-- feature/DocuSign_with_banners
+- test_demo
 
 variables:
   absolute_file_path_file: 'tests/resources/Envelope1.docx'
