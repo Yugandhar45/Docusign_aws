@@ -44,12 +44,10 @@ jobs:
       TargetFolder: '$(Build.ArtifactStagingDirectory)/copied_repo'
     displayName: 'Copy test files'
 
-  - script: |
-     cd $(Build.SourcesDirectory)/test
-    displayName: 'Change directory to tests folder'
 
   - script: |
       pip install pytest pytest-azurepipelines
+      cd D:\\a\\1\\s\\test
       pytest -v -s -vv
     displayName: 'Run tests'
 
