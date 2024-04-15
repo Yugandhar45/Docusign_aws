@@ -37,17 +37,10 @@ jobs:
       msiexec /i GoogleChromeStandaloneEnterprise.msi /quiet /norestart
     displayName: 'Install dependencies'
 
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: '$(Build.SourcesDirectory)'
-      Contents: '**'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)/copied_repo'
-    displayName: 'Copy test files'
-
 
   - script: |
       pip install pytest pytest-azurepipelines
-      cd D:\\a\\1\\s\\test
+      cd $(Build.SourcesDirectory)\test
       pytest -v -s -vv
     displayName: 'Run tests'
 
