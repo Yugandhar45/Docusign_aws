@@ -24,6 +24,8 @@ jobs:
       versionSpec: '$(python.version)'
     displayName: 'Use Python $(python.version)'
 
+  - checkout: self
+
   - script: |
       python -m pip install --upgrade pip
       pip install selenium
@@ -34,8 +36,6 @@ jobs:
       REM Install Google Chrome silently
       msiexec /i GoogleChromeStandaloneEnterprise.msi /quiet /norestart
     displayName: 'Install dependencies'
-
-  - checkout: self
 
   - task: CopyFiles@2
     inputs:
