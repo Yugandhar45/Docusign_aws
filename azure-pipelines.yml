@@ -31,9 +31,9 @@ jobs:
       pip install selenium
       pip install -r requirements.txt
       pip install --upgrade webdriver_manager
-      REM Download Google Chrome installer
+      # Download Google Chrome installer
       powershell -Command "(New-Object System.Net.WebClient).DownloadFile('https://dl.google.com/chrome/install/GoogleChromeStandaloneEnterprise.msi', 'GoogleChromeStandaloneEnterprise.msi')"
-      REM Install Google Chrome silently
+      # Install Google Chrome silently
       msiexec /i GoogleChromeStandaloneEnterprise.msi /quiet /norestart
     displayName: 'Install dependencies'
 
@@ -42,16 +42,27 @@ jobs:
       SourceFolder: '$(Build.SourcesDirectory)'
       Contents: '**'
       TargetFolder: '$(Build.ArtifactStagingDirectory)/copied_repo'
+    displayName: 'Copy test files'
+
   - script: |
-      cd D:\a\1\s\tests
-      # Run your test scripts here
-    displayName: 'Change directory and run tests'
+      cd $(Build.SourcesDirectory)/tests
+      if ($?) {
+        Write-Host "Successfully changed directory to tests folder."
+        # Run your test scripts here
+      }
+      else {
+        Write-Error "Failed to change directory to tests folder."
+        exit 1  # Exit with a non-zero code to indicate failure
+      }
+    displayName: 'Change directory to tests folder'
+
   - script: |
       pip install pytest pytest-azurepipelines
       pytest -v -s -vv
-    displayName: 'Tests Execution'
+    displayName: 'Run tests'
 
   - task: PublishPipelineArtifact@1
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)/copied_repo/tests/screenshots/'
       artifact: 'screenshots'
+    displayName: 'Publish screenshots artifact'
