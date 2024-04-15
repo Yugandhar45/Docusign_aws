@@ -45,15 +45,7 @@ jobs:
     displayName: 'Copy test files'
 
   - script: |
-      cd $(Build.SourcesDirectory)/tests
-      if ($?) {
-        Write-Host "Successfully changed directory to tests folder."
-        # Run your test scripts here
-      }
-      else {
-        Write-Error "Failed to change directory to tests folder."
-        exit 1  # Exit with a non-zero code to indicate failure
-      }
+     cd $(Build.SourcesDirectory)/test
     displayName: 'Change directory to tests folder'
 
   - script: |
