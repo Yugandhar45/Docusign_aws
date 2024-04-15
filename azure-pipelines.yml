@@ -45,7 +45,7 @@ jobs:
 
   - script: |
       pip install pytest pytest-azurepipelines
-      pytest -v -s
+      pytest -v -s -vv
     displayName: 'Tests Execution'
 
   - task: PublishPipelineArtifact@1
