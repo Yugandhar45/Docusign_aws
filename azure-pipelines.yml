@@ -43,7 +43,7 @@ jobs:
       Contents: '**'
       TargetFolder: '$(Build.ArtifactStagingDirectory)/copied_repo'
   - script: |
-      cd D:\a\1\s\DocuSign-Automation\tests
+      cd D:\a\1\s\tests
       # Run your test scripts here
     displayName: 'Change directory and run tests'
   - script: |
