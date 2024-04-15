@@ -1,0 +1,27 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N802" />
+          <option value="N803" />
+          <option value="N801" />
+          <option value="N806" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="tests.test_draft_to_approved_positive_workflow.Test_DTA_Positive_Workflow.*" />
+          <option value="tests.test_draft_to_effective_negative_flow.Test_DTE_Negative_Flow.*" />
+          <option value="tests.test_draft_to_effective_positive_flow.Test_DTE_Positive_Flow.driver" />
+          <option value="tests.test_issuance_cc_wf.TestChangeControlledCopyWF.*" />
+          <option value="tests.test_issuance_cc_wf.TestChangeControlledCopyWF.driver" />
+          <option value="tests.test_DTA_negative_workflow.Test_DTA_Negative_Workflow.driver" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

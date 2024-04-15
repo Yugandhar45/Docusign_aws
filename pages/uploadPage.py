@@ -76,6 +76,7 @@ class Upload_Page:
         self.view_document_btn = "//button[@data-qa='view-document']"
 
     def upload_envelope_documents(self, fileName, wootricPopup=False):
+        print('Started Document uploading')
         time.sleep(2)
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, self.upload_file_button))).click()
