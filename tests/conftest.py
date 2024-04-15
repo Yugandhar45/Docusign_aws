@@ -77,7 +77,8 @@ def pytest_runtest_makereport(item, call):
 
         xfail = hasattr(report, "wasxfail")
         if (report.skipped and xfail) or (report.failed and not xfail):
-            file_name = '/Failed_for_' + report.nodeid.replace("::", "_") + ".png"
+            #file_name = '/Failed_for_' + report.nodeid.replace("::", "_") + ".png"
+            file_name = "failed.png"
             file_path = os.path.abspath(Util_Test.folder_path)
             filename = file_path + file_name
             Util_Test.getscreenshot(file_name)
