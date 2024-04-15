@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from testData import constants as constants
-import pyttsx3
+#import pyttsx3
 import pandas as pd
 from pathlib import Path
 import pypdf
@@ -119,11 +119,11 @@ class Util_Test:
         decrypt_string = base64.decodebytes(string).decode("utf-8")
         return decrypt_string
 
-    @staticmethod
-    def speak(text):
-        engine = pyttsx3.init()
-        engine.say(text)
-        engine.runAndWait()
+    # @staticmethod
+    # def speak(text):
+    #     engine = pyttsx3.init()
+    #     engine.say(text)
+    #     engine.runAndWait()
 
     def execute_script_with_banner(self, text, apply_fixed_position=True, isBanner=True):
         # Display Banner
