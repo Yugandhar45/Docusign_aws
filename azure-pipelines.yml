@@ -42,7 +42,10 @@ jobs:
       SourceFolder: '$(Build.SourcesDirectory)'
       Contents: '**'
       TargetFolder: '$(Build.ArtifactStagingDirectory)/copied_repo'
-
+  - script: |
+      cd D:\a\1\s\DocuSign-Automation\tests
+      # Run your test scripts here
+    displayName: 'Change directory and run tests'
   - script: |
       pip install pytest pytest-azurepipelines
       pytest -v -s -vv
