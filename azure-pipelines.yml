@@ -31,24 +31,21 @@ jobs:
       pip install selenium
       pip install -r requirements.txt
       pip install --upgrade webdriver_manager
-      REM Download Google Chrome installer
+      # Download Google Chrome installer
       powershell -Command "(New-Object System.Net.WebClient).DownloadFile('https://dl.google.com/chrome/install/GoogleChromeStandaloneEnterprise.msi', 'GoogleChromeStandaloneEnterprise.msi')"
-      REM Install Google Chrome silently
+      # Install Google Chrome silently
       msiexec /i GoogleChromeStandaloneEnterprise.msi /quiet /norestart
     displayName: 'Install dependencies'
 
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: '$(Build.SourcesDirectory)'
-      Contents: '**'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)/copied_repo'
 
   - script: |
       pip install pytest pytest-azurepipelines
+      cd $(Build.SourcesDirectory)\test
       pytest -v -s -vv
-    displayName: 'Tests Execution'
+    displayName: 'Run tests'
 
   - task: PublishPipelineArtifact@1
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)/copied_repo/tests/screenshots/'
       artifact: 'screenshots'
+    displayName: 'Publish screenshots artifact'
