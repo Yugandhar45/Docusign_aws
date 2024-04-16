@@ -23,4 +23,6 @@ jobs:
 
       - script: |
           echo $(System.DefaultWorkingDirectory)
+          cd tests  # Change directory to 'tests' directory
+          echo $(System.DefaultWorkingDirectory)  # Print the updated working directory
           ls -la
