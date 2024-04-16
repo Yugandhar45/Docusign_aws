@@ -22,7 +22,9 @@ jobs:
       - checkout: self
 
       - script: |
-          echo $(System.DefaultWorkingDirectory)
-          cd tests  # Change directory to 'tests' directory
-          echo $(System.DefaultWorkingDirectory)  # Print the updated working directory
-          ls -la
+          echo "Current working directory: $(System.DefaultWorkingDirectory)"
+          dir  # List directory contents for debugging
+          cd tests || exit 1  # Change directory to 'tests' directory
+          echo "Updated working directory: $(System.DefaultWorkingDirectory)"
+          dir  # List directory contents after changing directory for debugging
+          ls -la  # List all files and directories in 'tests' directory
