@@ -1,30 +1,22 @@
 trigger:
   - test_demo
 
-variables:
-  absolute_file_path_file: 'tests/resources/Envelope1.docx'
-
 jobs:
   - job: Windows_Environment
     pool:
       vmImage: 'windows-latest'
-    strategy:
-      matrix:
-        Python39:
-          python.version: '3.9'
 
     steps:
-      - task: UsePythonVersion@0
-        inputs:
-          versionSpec: '$(python.version)'
-        displayName: 'Use Python $(python.version)'
-
-      - checkout: self
+      - checkout: none
 
       - script: |
-          echo "Current working directory: $(System.DefaultWorkingDirectory)"
-          dir  # List directory contents for debugging
-          cd tests || exit 1  # Change directory to 'tests' directory
-          echo "Updated working directory: $(System.DefaultWorkingDirectory)"
-          dir  # List directory contents after changing directory for debugging
-          ls -la  # List all files and directories in 'tests' directory
+          mkdir docuSign
+          cd docuSign
+          git init
+          git remote add origin https://github.com/PharmaTek-solutions/DocuSign-Automation.git
+          git fetch --depth=1 origin test_demo
+          git checkout test_demo
+
+          cd docuSign
+          dir
+        displayName: 'Clone repository, checkout branch, and list files'
