@@ -93,10 +93,13 @@ class Util_Test:
         os.makedirs(Util_Test.folder_path)
 
     @staticmethod
-    def getscreenshot(fileName):
+    def getscreenshot(fileName, root_directory=None):
         screenshot = ImageGrab.grab()
-        filepath = os.path.abspath(Util_Test.folder_path) + fileName
-        screenshot.save(filepath)
+        #filepath = os.path.abspath(Util_Test.folder_path) + fileName
+        if root_directory is None:
+            root_directory = os.getcwd()
+        document_path = os.path.join(root_directory, 'screenshots', fileName)
+        screenshot.save(document_path)
 
     # @staticmethod
     # def convert_html_to_pdf(html_report_path, pdf_report_path):

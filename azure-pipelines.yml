@@ -1,22 +1,46 @@
+# Python package
+# Create and test a Python package on multiple Python versions.
+# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+
 trigger:
-  - test_demo
+- test_demo
 
 jobs:
-  - job: Windows_Environment
-    pool:
-      vmImage: 'windows-latest'
+- job: Windows_Environment
+  pool:
+    vmImage: 'windows-latest'
+  strategy:
+    matrix:
+      Python39:
+        python.version: '3.9'
 
-    steps:
-      - checkout: self
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+    displayName: 'Use Python $(python.version)'
 
-      - script: |
-          mkdir docuSign
-          cd docuSign
-          git init
-          git remote add origin https://github.com/PharmaTek-solutions/DocuSign-Automation.git
-          git fetch --depth=1 origin test_demo
-          git checkout test_demo
+  - checkout: self
 
-          cd docuSign
-          dir
-        displayName: 'Clone repository, checkout branch, and list files'
+  - script: |
+      python -m pip install --upgrade pip
+      pip install selenium
+      pip install -r requirements.txt
+      pip install pandas
+      pip install --upgrade webdriver_manager
+    displayName: 'Install dependencies'
+
+
+  - script: |
+      pip install pytest pytest-azurepipelines
+      cd $(Build.SourcesDirectory)\tests
+      pytest -v -s -vv
+      cd $(Build.SourcesDirectory)\tests\screenshots
+      ls -la
+    displayName: 'Run tests'
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: 'tests/screenshots/'
+      artifact: 'screenshotssss'
