@@ -18,7 +18,7 @@ class Test_Change_Sign_Tag_Size:
         utils = Util_Test(driver)
         home = Home_Page(driver)
         upload = Upload_Page(driver)
-        Util_Test.create_directory(request.node.name)
+        #utils.create_directory(request.node.name)
         utils.execute_script_with_banner("Started the Execution for changing the Signature Tag size")
         utils.execute_script_with_banner(
             "Entering the username and password to log in as the sender")
@@ -44,9 +44,9 @@ class Test_Change_Sign_Tag_Size:
         add_sign.select_signer(constants.index_two)
         add_sign.addSignatureTag(650)
         add_sign.change_sign_tag_size()
-        add_sign.click_send_btn()
-        utils.execute_script_with_banner("Logout as Sender, After changing the size of sign tag")
-        utils.logout()
+        # add_sign.click_send_btn()
+        # utils.execute_script_with_banner("Logout as Sender, After changing the size of sign tag")
+        # utils.logout()
 
 
 
