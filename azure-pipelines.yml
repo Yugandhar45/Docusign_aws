@@ -7,7 +7,7 @@ jobs:
       vmImage: 'windows-latest'
 
     steps:
-      - checkout: none
+      - checkout: self
 
       - script: |
           mkdir docuSign
