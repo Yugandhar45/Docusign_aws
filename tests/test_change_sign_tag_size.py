@@ -9,7 +9,7 @@ from utilities.utils import Util_Test
 import pytest
 
 
-@pytest.mark.usefixtures("test_setup")
+#@pytest.mark.usefixtures("test_setup")
 class Test_Change_Sign_Tag_Size:
     def test_change_sign_size(self, request):
         # Get the current working directory
