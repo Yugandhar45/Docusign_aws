@@ -1,14 +1,11 @@
 import base64
 from datetime import datetime
-from pyhtml2pdf import converter
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from testData import constants as constants
-#import pyttsx3
 import pandas as pd
 from pathlib import Path
-import pypdf
 import os
 import time
 from PIL import ImageGrab
@@ -74,18 +71,18 @@ class Util_Test:
         self.driver.switch_to.window(parentWindow)
 
     @staticmethod
-    def validate_pdf_data(filecontents, first_page=False):
-        file = open(filecontents[0], "rb")
-        reader = pypdf.PdfReader(file)
-        data = ""
-        for page in reader.pages:
-            data += page.extract_text()
-            print(data)
-        if first_page:
-            pass
-        else:
-            assert filecontents[2] in data
-        assert filecontents[1] in data
+    # def validate_pdf_data(filecontents, first_page=False):
+    #     file = open(filecontents[0], "rb")
+    #     reader = pypdf.PdfReader(file)
+    #     data = ""
+    #     for page in reader.pages:
+    #         data += page.extract_text()
+    #         print(data)
+    #     if first_page:
+    #         pass
+    #     else:
+    #         assert filecontents[2] in data
+    #     assert filecontents[1] in data
 
     @staticmethod
     def create_directory(test_name):
@@ -101,10 +98,10 @@ class Util_Test:
         filepath = os.path.abspath(Util_Test.folder_path) + fileName
         screenshot.save(filepath)
 
-    @staticmethod
-    def convert_html_to_pdf(html_report_path, pdf_report_path):
-        path = os.path.abspath(html_report_path)
-        converter.convert(f"file:///{path}", pdf_report_path)
+    # @staticmethod
+    # def convert_html_to_pdf(html_report_path, pdf_report_path):
+    #     path = os.path.abspath(html_report_path)
+    #     converter.convert(f"file:///{path}", pdf_report_path)
 
     @staticmethod
     def password_encrypt(*args):
