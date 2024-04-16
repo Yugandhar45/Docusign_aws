@@ -20,10 +20,6 @@ jobs:
         displayName: 'Use Python $(python.version)'
 
       - checkout: self
-
-  - job: list_files_job
-    displayName: "List Files"
-    steps:
       - script: |
-          cd $(System.DefaultWorkingDirectory)
+          echo $(System.DefaultWorkingDirectory)
           ls -la
