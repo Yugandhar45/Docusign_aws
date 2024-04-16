@@ -16,4 +16,3 @@ selenium==4.3.0
 urllib3==1.26.16
 urllib3-secure-extra==0.1.0
 webdriver-manager==4.0.1
-#webdriver-manager==3.8.6
