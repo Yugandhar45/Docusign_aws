@@ -30,11 +30,6 @@ jobs:
       python -m pip install --upgrade pip
       pip install selenium
       pip install --upgrade webdriver_manager
-      pip install pytest
-      REM Download Google Chrome installer
-      powershell -Command "(New-Object System.Net.WebClient).DownloadFile('https://dl.google.com/chrome/install/GoogleChromeStandaloneEnterprise.msi', 'GoogleChromeStandaloneEnterprise.msi')"
-      REM Install Google Chrome silently
-      msiexec /i GoogleChromeStandaloneEnterprise.msi /quiet /norestart
     displayName: 'Install dependencies'
 
 
