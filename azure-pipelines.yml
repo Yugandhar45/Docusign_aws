@@ -20,6 +20,7 @@ jobs:
         displayName: 'Use Python $(python.version)'
 
       - checkout: self
+
       - script: |
           echo $(System.DefaultWorkingDirectory)
           ls -la
