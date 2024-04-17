@@ -11,10 +11,6 @@ import time
 from PIL import ImageGrab
 
 
-def get_project_root() -> Path:
-    return Path(__file__).parent.parent
-
-
 class Util_Test:
     folder_path = constants.screenshots_path
 
@@ -70,7 +66,7 @@ class Util_Test:
                 yield
         self.driver.switch_to.window(parentWindow)
 
-    @staticmethod
+    #@staticmethod
     # def validate_pdf_data(filecontents, first_page=False):
     #     file = open(filecontents[0], "rb")
     #     reader = pypdf.PdfReader(file)
@@ -84,12 +80,13 @@ class Util_Test:
     #         assert filecontents[2] in data
     #     assert filecontents[1] in data
 
-    @staticmethod
-    def create_directory(test_name):
+    def create_directory(self, test_name, root_directory=None):
         timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
         folder_name = test_name + '_' + timestamp
         # global folder_path
-        Util_Test.folder_path = os.path.join(constants.screenshots_path, folder_name)
+        if root_directory is None:
+            root_directory = os.getcwd()
+            Util_Test.folder_path = os.path.join(root_directory, 'screenshots', folder_name)
         os.makedirs(Util_Test.folder_path)
 
     @staticmethod
