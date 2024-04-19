@@ -30,7 +30,7 @@ jobs:
   - script: |
       pip install pytest pytest-azurepipelines
       cd $(Build.SourcesDirectory)/tests
-      pytest -v -s -vv --html=report.html
+      pytest -v -s -vv --html=reports\report.html
     displayName: 'Run tests'
 
   - task: PublishPipelineArtifact@1
