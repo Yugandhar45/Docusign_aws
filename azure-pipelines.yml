@@ -35,12 +35,12 @@ jobs:
 
   - task: PublishPipelineArtifact@1
     inputs:
-      targetPath: tests/screenshots/
+      targetPath: '$(Build.SourcesDirectory)tests/screenshots/'
       artifact: 'screenshots'
     displayName: 'Publish screenshots artifact'
   
   - task: PublishPipelineArtifact@1
     inputs:
-      targetPath: 'tests/reports'
+      targetPath: '$(Build.SourcesDirectory)/tests/reports'
       artifact: 'html-test-report'
     displayName: 'Publish HTML report artifact'
