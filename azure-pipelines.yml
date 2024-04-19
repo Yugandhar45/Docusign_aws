@@ -18,27 +18,29 @@ jobs:
       versionSpec: '3.9'
     displayName: 'Use Python 3.9'
 
-
   - script: |
       python -m pip install --upgrade pip
       pip install selenium
       pip install -r requirements.txt
       pip install pandas
       pip install --upgrade webdriver_manager
-      REM Download Google Chrome installer
-      powershell -Command "(New-Object System.Net.WebClient).DownloadFile('https://dl.google.com/chrome/install/GoogleChromeStandaloneEnterprise.msi', 'GoogleChromeStandaloneEnterprise.msi')"
-      REM Install Google Chrome silently
-      msiexec /i GoogleChromeStandaloneEnterprise.msi /quiet /norestart
     displayName: 'Install dependencies'
 
 
   - script: |
       pip install pytest pytest-azurepipelines
       cd $(Build.SourcesDirectory)\tests
-      pytest -v -s -vv
+      pytest -v -s -vv --html= reports/myreport.html
     displayName: 'Run tests'
 
   - task: PublishPipelineArtifact@1
     inputs:
-      targetPath: 'tests/screenshots/'
-      artifact: 'screenshotssss'
+      targetPath: tests/screenshots/
+      artifact: 'screenshots'
+    displayName: 'Publish screenshots artifact'
+  
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: 'tests/reports'
+      artifact: 'html-test-report'
+    displayName: 'Publish HTML report artifact'
