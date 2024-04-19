@@ -1,6 +1,3 @@
-import os
-import time
-
 from pages.loginPage import Login_Page
 from pages.homePage import Home_Page
 from testData import constants as constants
@@ -27,7 +24,6 @@ class Test_Change_Sign_Tag_Size:
         home.validate_home_page()
         home.click_start_button()
         home.send_envelope()
-        Util_Test.getscreenshot('/upload.png')
         utils.execute_script_with_banner("Uploading the Document as a sender")
         upload.upload_envelope_documents()
         utils.execute_script_with_banner("Adding first recipients and other details:")
@@ -46,9 +42,9 @@ class Test_Change_Sign_Tag_Size:
         add_sign.select_signer(constants.index_two)
         add_sign.addSignatureTag(650)
         add_sign.change_sign_tag_size()
-        # add_sign.click_send_btn()
-        # utils.execute_script_with_banner("Logout as Sender, After changing the size of sign tag")
-        # utils.logout()
+        add_sign.click_send_btn()
+        utils.execute_script_with_banner("Logout as Sender, After changing the size of sign tag")
+        utils.logout()
 
 
 

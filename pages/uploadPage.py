@@ -75,21 +75,6 @@ class Upload_Page:
         self.delete_document_btn = "//button[@data-qa='delete-document']"
         self.view_document_btn = "//button[@data-qa='view-document']"
 
-    # def upload_envelope_documents(self, fileName, wootricPopup=False):
-    #     print('Started Document uploading')
-    #     time.sleep(2)
-    #     WebDriverWait(self.driver, 20).until(
-    #         EC.element_to_be_clickable((By.CSS_SELECTOR, self.upload_file_button))).click()
-    #     browse_button = WebDriverWait(self.driver, 10).until(
-    #         EC.element_to_be_clickable((By.CSS_SELECTOR, self.upload_file_input)))
-    #     absolute_file_path_file = os.path.abspath(fileName)
-    #     browse_button.send_keys(absolute_file_path_file)
-    #     time.sleep(2)
-    #     if wootricPopup:
-    #         self.driver.find_element(By.ID, self.wootric_close_button).click()
-    #     else:
-    #         self.driver.find_element(By.CSS_SELECTOR, self.add_recipients_content)
-
     def upload_envelope_documents(self, wootricPopup=False, root_directory=None):
         print('Started Document uploading')
         time.sleep(2)
