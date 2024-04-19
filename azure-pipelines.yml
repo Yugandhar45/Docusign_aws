@@ -29,7 +29,7 @@ jobs:
 
   - script: |
       pip install pytest pytest-azurepipelines
-      cd $(Build.SourcesDirectory)\tests
+      cd $(Build.SourcesDirectory)/tests
       pytest -v -s -vv --html= reports/myreport.html
     displayName: 'Run tests'
 
