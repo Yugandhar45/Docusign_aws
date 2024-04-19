@@ -35,7 +35,7 @@ jobs:
 
   - task: PublishPipelineArtifact@1
     inputs:
-      targetPath: '$(Build.SourcesDirectory)tests/screenshots/'
+      targetPath: '$(Build.SourcesDirectory)/tests/screenshots/'
       artifact: 'screenshots'
     displayName: 'Publish screenshots artifact'
   
