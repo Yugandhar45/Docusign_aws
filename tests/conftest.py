@@ -31,7 +31,6 @@ def test_setup(request):
             "download.directory_upgrade": True,
             "safebrowsing.enabled": True
         })
-        options.add_argument("--window-size=1920,1080")
         driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
     elif browser == "firefox":
         download_path = os.path.abspath(constants.download_path)
