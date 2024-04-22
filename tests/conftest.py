@@ -74,18 +74,19 @@ def pytest_runtest_makereport(item, call):
     if report.when == "call" or report.when == "test_setup":
         # adding url to report
         extra.append(pytest_html.extras.url(os.path.abspath(constants.screenshots_path)))
-
         xfail = hasattr(report, "wasxfail")
         if (report.skipped and xfail) or (report.failed and not xfail):
-            #file_name = '/Failed_for_' + report.nodeid.replace("::", "_") + ".png"
-            file_name = "failed.png"
-            file_path = os.path.abspath(Util_Test.folder_path)
-            filename = file_path + file_name
-            Util_Test.getscreenshot(file_name)
-            if file_name:
-                html = '<div><img src="%s" alt="screenshot" style="width:304px;height:228px;" ' \
-                       'onclick="window.open(this.src)" align="right"/></div>' % filename
-            extra.append(pytest_html.extras.html(html))
+            driver = item.funcargs.get('driver', None)
+            if driver is not None:
+                utils = Util_Test(driver)
+                file_name = "/failed.png"
+                utils.getscreenshot(file_name)
+                filename = os.path.abspath(Util_Test.folder_path) + file_name
+                if file_name:
+                    html = '<div><img src="%s" alt="screenshot" style="width:304px;height:228px;" ' \
+                           'onclick="window.open(this.src)" align="right"/></div>' % filename
+                extra.append(pytest_html.extras.html(html))
+
         report.extra = extra
 
 
