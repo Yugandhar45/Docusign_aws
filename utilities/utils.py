@@ -1,5 +1,7 @@
 import base64
 from datetime import datetime
+from io import BytesIO
+
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -8,7 +10,7 @@ import pandas as pd
 from pathlib import Path
 import os
 import time
-from PIL import ImageGrab
+from PIL import ImageGrab, Image, ImageDraw, ImageFont
 
 
 class Util_Test:
@@ -89,16 +91,36 @@ class Util_Test:
             Util_Test.folder_path = os.path.join(root_directory, 'screenshots', folder_name)
         os.makedirs(Util_Test.folder_path)
 
-    @staticmethod
-    def getscreenshot(fileName):
-        screenshot = ImageGrab.grab()
-        filepath = os.path.abspath(Util_Test.folder_path) + fileName
-        screenshot.save(filepath)
+    def getscreenshot(self, fileName):
+        # Capture the screenshot as a PNG
+        screenshot = self.driver.get_screenshot_as_png()
 
-    # @staticmethod
-    # def convert_html_to_pdf(html_report_path, pdf_report_path):
-    #     path = os.path.abspath(html_report_path)
-    #     converter.convert(f"file:///{path}", pdf_report_path)
+        # Open the screenshot with Pillow
+        image = Image.open(BytesIO(screenshot))
+
+        # Get current date and time as text
+        current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        # Create an ImageDraw object to draw on the screenshot
+        draw = ImageDraw.Draw(image)
+
+        # Use a specific font
+        font = ImageFont.load_default()  # Default font
+        # You can use a custom font with ImageFont.truetype() and specify the font file
+
+        # Determine the position for the text (bottom-left corner with padding)
+        text_padding = 5
+        bbox = draw.textbbox((0, 0), current_datetime, font=font)
+        text_width = bbox[2] - bbox[0]
+        text_height = bbox[3] - bbox[1]
+        image_width, image_height = image.size
+        text_position = (text_padding, image_height - text_height - text_padding)
+
+        # Draw the text with specified position, color, and font
+        draw.text(text_position, current_datetime, fill="black", font=font)
+        filepath = os.path.abspath(Util_Test.folder_path) + fileName
+        print("file path =", filepath)
+        image.save(filepath)
 
     @staticmethod
     def password_encrypt(*args):
