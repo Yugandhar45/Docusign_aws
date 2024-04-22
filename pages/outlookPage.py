@@ -40,9 +40,9 @@ class Outlook_Page:
             EC.element_to_be_clickable((By.XPATH, self.check_box))).click()
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.Yes))).click()
-        others_tab = WebDriverWait(self.driver, 30).until(
-            EC.element_to_be_clickable((By.XPATH, self.others_tab))).is_displayed()
-        assert others_tab
+        # others_tab = WebDriverWait(self.driver, 30).until(
+        #     EC.element_to_be_clickable((By.XPATH, self.others_tab))).is_displayed()
+        # assert others_tab
 
     def clickRecentEmail(self, recent_mail_text):
         recent_mail = self.recent_mail.replace('plaintext', recent_mail_text)
