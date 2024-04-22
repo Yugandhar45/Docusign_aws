@@ -36,10 +36,12 @@ jobs:
       targetPath: tests/screenshots/
       artifact: 'screenshots'
     displayName: 'Publish screenshots artifact'
+    condition: always()
   
   - task: PublishPipelineArtifact@1
     inputs:
       targetPath: 'tests/reports'
       artifact: 'html-test-report'
     displayName: 'Publish HTML report artifact'
+    condition: always()
 
