@@ -28,7 +28,7 @@ jobs:
 
   - script: |
       cd $(Build.SourcesDirectory)/tests
-      pytest -v -s -vv --html=reports\myreport.html --self-contained-html --capture=tee-sys
+      pytest -v -s -vv --html=reports\report.html --self-contained-html --capture=tee-sys
     displayName: 'Run tests with capturing screenshots on failure'
 
   - task: PublishPipelineArtifact@1
