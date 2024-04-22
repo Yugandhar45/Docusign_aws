@@ -1,8 +1,3 @@
-# Python package
-# Create and test a Python package on multiple Python versions.
-# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
-
 trigger:
 - test_demo
 
@@ -26,12 +21,14 @@ jobs:
       pip install --upgrade webdriver_manager
     displayName: 'Install dependencies'
 
+  - script: |
+      pip install pytest pytest-azurepipelines pytest-html
+    displayName: 'Install pytest and plugins'
 
   - script: |
-      pip install pytest pytest-azurepipelines
       cd $(Build.SourcesDirectory)/tests
-      pytest -v -s -vv --html=reports\report.html
-    displayName: 'Run tests'
+      pytest -v -s -vv --html=reports\myreport.html --self-contained-html --capture=tee-sys
+    displayName: 'Run tests with capturing screenshots on failure'
 
   - task: PublishPipelineArtifact@1
     inputs:
@@ -44,3 +41,4 @@ jobs:
       targetPath: 'tests/reports'
       artifact: 'html-test-report'
     displayName: 'Publish HTML report artifact'
+
