@@ -40,7 +40,7 @@ class Test_SendEnvelope_Approve:
         add_sign.select_signer(constants.index_two)
         utils.execute_script_with_banner("Adding Signature Tag for Recipient 2")
         add_sign.addSignatureTag(650)
-        Util_Test.getscreenshot('/1.Adding_signature_Tags_for_Envelope1.png')
+        utils.getscreenshot('/1.Adding_signature_Tags_for_Envelope1.png')
         utils.execute_script_with_banner("Selecting the second document to add the Sign tags")
         add_sign.scroll_to_next_envelope()
         utils.execute_script_with_banner("Adding Signature Tag for Recipient 1")
@@ -50,7 +50,7 @@ class Test_SendEnvelope_Approve:
         add_sign.select_signer(constants.index_two)
         utils.execute_script_with_banner("Adding Signature Tag for Recipient 2")
         add_sign.addSignatureTag(650)
-        Util_Test.getscreenshot('/2.Adding_signature_Tags_for_Envelope2.png')
+        utils.getscreenshot('/2.Adding_signature_Tags_for_Envelope2.png')
         add_sign.click_send_btn()
         # Change signature routing order
         upload.navigateToEnvelope(constants.select_2envelopes, True)
@@ -142,8 +142,9 @@ class Test_SendEnvelope_Approve:
         driver = request.cls.driver
         driver.get(constants.outlook_url)
         outlook = Outlook_Page(driver)
+        utils = Util_Test(driver)
         outlook.loginToOutlook(constants.sender_email, constants.sender_password_outlook)
         outlook.clickOtherFieldTab()
         outlook.clickRecentEmail(constants.recent_mail_completed_envelope)
         outlook.verifyCompletedEnvelope()
-        Util_Test.getscreenshot('/4.Envelope_completed_notification.png')
+        utils.getscreenshot('/4.Envelope_completed_notification.png')
