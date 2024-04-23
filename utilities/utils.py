@@ -92,31 +92,17 @@ class Util_Test:
         os.makedirs(Util_Test.folder_path)
 
     def getscreenshot(self, fileName):
-        # Capture the screenshot as a PNG
         screenshot = self.driver.get_screenshot_as_png()
-
-        # Open the screenshot with Pillow
         image = Image.open(BytesIO(screenshot))
-
-        # Get current date and time as text
         current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        # Create an ImageDraw object to draw on the screenshot
         draw = ImageDraw.Draw(image)
-
-        # Use a specific font
-        font = ImageFont.load_default()  # Default font
-        # You can use a custom font with ImageFont.truetype() and specify the font file
-
-        # Determine the position for the text (bottom-left corner with padding)
+        font = ImageFont.load_default()
         text_padding = 5
         bbox = draw.textbbox((0, 0), current_datetime, font=font)
         text_width = bbox[2] - bbox[0]
         text_height = bbox[3] - bbox[1]
         image_width, image_height = image.size
         text_position = (text_padding, image_height - text_height - text_padding)
-
-        # Draw the text with specified position, color, and font
         draw.text(text_position, current_datetime, fill="black", font=font)
         filepath = os.path.abspath(Util_Test.folder_path) + fileName
         print("file path =", filepath)
