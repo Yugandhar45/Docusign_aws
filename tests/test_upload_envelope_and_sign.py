@@ -144,7 +144,7 @@ class Test_SendEnvelope_Approve:
         outlook = Outlook_Page(driver)
         utils = Util_Test(driver)
         outlook.loginToOutlook(constants.sender_email, constants.sender_password_outlook)
-        outlook.clickOtherFieldTab()
+        #outlook.clickOtherFieldTab()
         outlook.clickRecentEmail(constants.recent_mail_completed_envelope)
         outlook.verifyCompletedEnvelope()
         utils.getscreenshot('/4.Envelope_completed_notification.png')
