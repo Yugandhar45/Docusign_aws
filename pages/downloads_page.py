@@ -55,7 +55,8 @@ class Download_Page:
             EC.element_to_be_clickable((By.CSS_SELECTOR, self.download_combine_button))).click()
         time.sleep(5)
         if screenshot:
-            Util_Test.getscreenshot('/3.Downloading_the_Combined_pdf_documents.png')
+            utils = Util_Test(self.driver)
+            utils.getscreenshot('/3.Downloading_the_Combined_pdf_documents.png')
         time.sleep(25)
 
     def getting_envelope_id(self):

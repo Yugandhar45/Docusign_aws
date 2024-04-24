@@ -2,6 +2,7 @@ import base64
 from datetime import datetime
 from io import BytesIO
 
+import pypdf
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -68,19 +69,19 @@ class Util_Test:
                 yield
         self.driver.switch_to.window(parentWindow)
 
-    #@staticmethod
-    # def validate_pdf_data(filecontents, first_page=False):
-    #     file = open(filecontents[0], "rb")
-    #     reader = pypdf.PdfReader(file)
-    #     data = ""
-    #     for page in reader.pages:
-    #         data += page.extract_text()
-    #         print(data)
-    #     if first_page:
-    #         pass
-    #     else:
-    #         assert filecontents[2] in data
-    #     assert filecontents[1] in data
+    @staticmethod
+    def validate_pdf_data(filecontents, first_page=False):
+        file = open(filecontents[0], "rb")
+        reader = pypdf.PdfReader(file)
+        data = ""
+        for page in reader.pages:
+            data += page.extract_text()
+            print(data)
+        if first_page:
+            pass
+        else:
+            assert filecontents[2] in data
+        assert filecontents[1] in data
 
     def create_directory(self, test_name, root_directory=None):
         timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
