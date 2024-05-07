@@ -17,6 +17,10 @@ jobs:
     displayName: 'Use Python 3.9'
 
   - script: |
+      echo "Pipeline triggered by: $(TriggeringUser)"
+    displayName: 'Print Triggering User'
+
+  - script: |
       echo "##vso[task.setvariable variable=TRIGGERING_USER]$(TriggeringUser)"
     displayName: 'Set Triggering User Variable'
 
