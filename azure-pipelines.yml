@@ -18,7 +18,7 @@ jobs:
 
   - script: |
       echo "##vso[task.setvariable variable=TRIGGERING_USER]$(TriggeringUser)"
-      displayName: 'Set Triggering User Variable'
+    displayName: 'Set Triggering User Variable'
 
   - script: |
       python -m pip install --upgrade pip
