@@ -5,12 +5,12 @@ from selenium.webdriver.support.wait import WebDriverWait
 from utilities.utils import Util_Test
 from testData import constants
 import time
-
+from utilities.utils import Util_Test
 
 class Settings_Page:
     def __init__(self, driver):
         self.driver = driver
-
+        self.utils = Util_Test(driver)
         # Locators
         self.settings_tab = "//button[@data-qa='header-RADMIN-tab-button']"
         self.regional_settings = "//button[@data-qa='nav_link_authenticated.regional-settings']"
@@ -77,7 +77,7 @@ class Settings_Page:
                 By.XPATH, self.preferences_save_button))).click()
             success_msg = WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((
                 By.XPATH, self.success_message_date_time_format_change))).text
-            Util_Test.getscreenshot('/1.UserAllowedToChangeDateTimeFormat.png')
+            self.utils.getscreenshot('/1.UserAllowedToChangeDateTimeFormat.png')
             print("Data/Time format:", success_msg)
             assert success_msg == constants.date_time_change_success_message
 
@@ -88,7 +88,7 @@ class Settings_Page:
         dateTimeTextBox = WebDriverWait(self.driver, 5).until(
             EC.visibility_of_element_located((By.XPATH, self.date_time_format_text))).is_enabled()
         #assert not dateTimeTextBox
-        Util_Test.getscreenshot('/2.userNotAllowToChangeDateTimeFormat.png')
+        self.utils.getscreenshot('/2.userNotAllowToChangeDateTimeFormat.png')
         print(constants.cannot_change_date_time_format)
 
     def verify_regional_settings_page(self):

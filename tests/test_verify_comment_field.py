@@ -28,10 +28,11 @@
 #         utils.execute_script_with_banner(
 #             "Entering the valid credentials (username and password) to log in as the sender")
 #         login.login_page(constants.sender_email, constants.sender_password)
-#         utils.execute_script_with_banner("Home page is launch")
+#         utils.execute_script_with_banner("Home page is Displayed")
 #         home.validate_home_page()
 #         utils.execute_script_with_banner("Uploading the Document as a sender")
 #         home.click_start_button()
+#         utils.execute_script_with_banner("Clicking on start to send the envelope")
 #         home.send_envelope()
 #         upload.upload_envelope_documents(constants.testEnvelope_VerifyComment, False)
 #         utils.execute_script_with_banner("Adding recipients and other details:")
@@ -50,6 +51,7 @@
 #         utils.execute_script_with_banner("Login to DocuSign again, this time using the signer credentials", False)
 #         login.login_page(constants.signer1_email, constants.signer1_password)
 #         home.validate_home_page()
+#         utils.execute_script_with_banner("Clicking on Manage Tab and Send Button to select respective envelope")
 #         upload.navigateToEnvelope(constants.envelope_Envelope_VerifyComment)
 #         utils.getscreenshot('/2.EnabledSignButtonForEnvelopeSigning.png')
 #         upload.clickPrimarySignButton()
@@ -60,7 +62,9 @@
 #         approve.e_sign_reason()
 #         approve.click_continue_btn()
 #         approve.switchToNewTab(constants.signer1_email, constants.signer1_password)
+#         utils.execute_script_with_banner("without comment unable to finish the process")
 #         approve.click_finish_btn()
+#         utils.execute_script_with_banner("required popup is displayed")
 #         approve.verify_required_message()
 #         utils.getscreenshot('/3.comment_Required.png')
 #         approve.add_comment()
@@ -83,5 +87,3 @@
 #         utils.execute_script_with_banner("Verifying the signature and comment Fields as a sender ")
 #         download.combine_download()
 #         Util_Test.validate_pdf_data(filecontents=[constants.pdf_file_path1, constants.comment_field], first_page=True)
-#
-#

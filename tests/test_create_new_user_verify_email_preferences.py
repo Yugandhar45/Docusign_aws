@@ -16,14 +16,14 @@
 #         utils = Util_Test(driver)
 #         utils.execute_script_with_banner("Started the Execution for creating new user and verify email preferences")
 #         utils.execute_script_with_banner(
-#             "Entering the valid credentials (username and password) to log in as the sender")
+#             "Entering the valid credentials to log in as the sender")
 #         utils.create_directory(request.node.name)
 #         login.login_page(constants.sender_email, constants.sender_password)
 #         # Create an user
-#         utils.execute_script_with_banner("Home page is launch")
+#         utils.execute_script_with_banner("Home page is Displayed")
 #         home.validate_home_page()
 #         user = Envelope_History(driver)
-#         utils.execute_script_with_banner("Creating the new user",False)
+#         utils.execute_script_with_banner("Creating the new user", False)
 #         user.creating_user()
 #         utils.execute_script_with_banner("Filling all the Required fields and saving the changes")
 #         user.click_email_preferences()

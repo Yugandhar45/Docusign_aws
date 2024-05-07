@@ -1,3 +1,5 @@
+import getpass
+import warnings
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.edge.service import Service as EdgeService
@@ -10,6 +12,7 @@ from datetime import datetime
 from testData import constants
 import pytest
 import os
+import pytz
 
 
 def pytest_addoption(parser):
@@ -18,6 +21,8 @@ def pytest_addoption(parser):
 
 @pytest.fixture(scope='class')
 def test_setup(request):
+    # Suppress DeprecationWarning for HTTPResponse.getheader()
+    warnings.filterwarnings("ignore", category=DeprecationWarning)
     driver = None
     browser = request.config.getoption("--browser")
     if browser == "chrome":
@@ -93,8 +98,8 @@ def pytest_runtest_makereport(item, call):
 # It is Hook for adding environment info to HTML reports
 def pytest_configure(config):
     config._metadata['Project Name'] = 'Docusign'
-    config._metadata['Tester Name'] = 'Prathyusha Daddolu'
-    config._metadata['UTC Time'] = datetime.utcnow()
+    config._metadata['Tester Name'] = getpass.getuser()
+    config._metadata['UTC Time'] = datetime.now(pytz.UTC)
 
 
 # It is Hook for delete/modify environment info to HTML report

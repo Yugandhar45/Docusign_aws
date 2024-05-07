@@ -7,6 +7,7 @@ outlook_url = "https://outlook.office365.com/mail/"
 sender_name = "Test Sender"
 signer1_name = "Signer1"
 signer2_name = "Signer2"
+signer3_name = "Signer3"
 
 sender_email = "testsender@pharmateksol.com"
 sender_password = b'UHRzc2VuZGVyMUAxMjM='
@@ -15,7 +16,7 @@ signer1_email = "testsigner1@pharmateksol.com"
 signer1_password = b'UHRzc2lnbmVyQDEyMw=='
 signer2_email = "testsigner2@pharmateksol.com"
 signer2_password = b'UHRzc2lnbmVyQDEyMw=='
-
+signer3_email = "docusignapprover1@gmail.com"
 # Data:
 index_one = "1"
 index_two = "2"

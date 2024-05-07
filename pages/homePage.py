@@ -1,5 +1,4 @@
 import pdb
-
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -8,6 +7,7 @@ from testData import constants as constants
 from selenium.webdriver.common.action_chains import ActionChains
 from utilities.utils import Util_Test
 import time
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 import os
 
 
@@ -77,13 +77,20 @@ class Home_Page:
         self.my_preferences = "//button[@data-qa='header-choice-PREFERENCES-button']"
 
     def validate_home_page(self):
-        WebDriverWait(self.driver, 90).until(EC.visibility_of_element_located((
-            By.XPATH, self.docusign_logo))).is_displayed()
-        home_tab = WebDriverWait(self.driver, 60).until(EC.visibility_of_element_located((
-            By.CSS_SELECTOR, self.home_tab))).is_displayed()
-        assert home_tab
-        WebDriverWait(self.driver, 60).until(EC.element_to_be_clickable((
-            By.XPATH, self.start_button))).is_displayed()
+        max_retries = 2
+        retry_count = 0
+        while retry_count < max_retries:
+            try:
+                WebDriverWait(self.driver, 90).until(EC.visibility_of_element_located((
+                    By.XPATH, self.docusign_logo))).is_displayed()
+                home_tab = WebDriverWait(self.driver, 60).until(EC.visibility_of_element_located((
+                    By.CSS_SELECTOR, self.home_tab))).is_displayed()
+                assert home_tab
+                WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable((
+                    By.XPATH, self.start_button))).is_displayed()
+                break
+            except (StaleElementReferenceException, TimeoutException):
+                retry_count += 1
         WebDriverWait(self.driver, 60).until(
             EC.visibility_of_element_located((By.XPATH, self.action_required_button))).is_displayed()
         WebDriverWait(self.driver, 60).until(
@@ -97,43 +104,28 @@ class Home_Page:
             By.XPATH, self.my_preferences))).click()
 
     def click_start_button(self):
-        WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((
-            By.XPATH, self.start_button))).is_displayed()
-        WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((
-            By.XPATH, self.start_button))).click()
+        max_retries = 2
+        retry_count = 0
+        while retry_count < max_retries:
+            try:
+                WebDriverWait(self.driver, 90).until(EC.visibility_of_element_located((
+                    By.XPATH, self.start_button))).is_displayed()
+                WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable((
+                    By.XPATH, self.start_button))).click()
+                break
+            except (StaleElementReferenceException, TimeoutException):
+                retry_count += 1
 
     def send_envelope(self):
-        WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((
+        WebDriverWait(self.driver, 90).until(EC.visibility_of_element_located((
             By.CSS_SELECTOR, self.send_envelope_btn)))
-        WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((
+        WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable((
             By.CSS_SELECTOR, self.send_envelope_btn))).click()
         try:
-            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((
+            WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((
                 By.XPATH, self.hide_btn))).click()
             WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((
                 By.XPATH, self.got_it_btn))).click()
         except:
             print("No Popup's are available")
-
-    def addRecipient1(self, name_rec1, email_rec1):
-        WebDriverWait(self.driver, 20).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, self.signing_order_chkbx))).click()
-
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, self.recipient_name1))).send_keys(name_rec1)
-        time.sleep(1)
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, self.recipient_email1))).send_keys(email_rec1)
-        time.sleep(2)
-
-    def addRecipient2(self, name_rec2, email_rec2):
-        time.sleep(1)
-        self.driver.find_element(By.CSS_SELECTOR, self.add_recipients).click()
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, self.recipient_name2))).send_keys(name_rec2)
-        time.sleep(1)
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, self.recipient_email2))).send_keys(email_rec2)
-        time.sleep(1)
-        # Util_Test.getscreenshot('/Set_Signing_Order.png')
 

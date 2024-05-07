@@ -26,9 +26,13 @@ class Outlook_Page:
         self.print_button = "//button[@name='Print']"
         self.close_report_btn = "//button[@title='Close']"
         self.Review_Document = "//span[normalize-space()='REVIEW DOCUMENTS']"
+        self.microsoft_logo = "//img[@class='logo']"
+        self.home_button = "//span[contains(text(),'Home') and contains(@class,'ms-Button')]"
 
     def loginToOutlook(self, username, password):
-        time.sleep(5)
+        logo = WebDriverWait(self.driver, 60).until(
+            EC.visibility_of_element_located((By.XPATH, self.microsoft_logo))).is_displayed()
+        assert logo
         WebDriverWait(self.driver, 60).until(
             EC.element_to_be_clickable((By.XPATH, self.user_name))).send_keys(username)
         self.driver.find_element(By.XPATH, self.submit_userName).click()
@@ -40,9 +44,9 @@ class Outlook_Page:
             EC.element_to_be_clickable((By.XPATH, self.check_box))).click()
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.Yes))).click()
-        # others_tab = WebDriverWait(self.driver, 30).until(
-        #     EC.element_to_be_clickable((By.XPATH, self.others_tab))).is_displayed()
-        # assert others_tab
+        home_tab = WebDriverWait(self.driver, 60).until(
+            EC.element_to_be_clickable((By.XPATH, self.home_button))).is_displayed()
+        assert home_tab
 
     def clickRecentEmail(self, recent_mail_text):
         recent_mail = self.recent_mail.replace('plaintext', recent_mail_text)

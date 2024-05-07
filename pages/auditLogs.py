@@ -12,7 +12,7 @@ import time
 class Audit_Logs:
     def __init__(self, driver):
         self.driver = driver
-
+        self.utils = Util_Test(driver)
         # Locators:
         self.settings_tab = "//button[@data-qa='header-RADMIN-tab-button']"
         self.audit_log = "//button[@data-qa='nav_link_authenticated.audit-log']"
@@ -58,9 +58,8 @@ class Audit_Logs:
         selectValue = Select(dropDown)
         selectValue.select_by_visible_text(constants.customFilter)
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, self.apply_button))).click()
-        Util_Test.getscreenshot("/3.Audit_Logs.png")
+        self.utils.getscreenshot("/3.Audit_Logs.png")
         audit_logs_new_value = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((
             By.XPATH, self.new_value_cell))).text
         print(audit_logs_new_value)
         print(company_name_field)
-        #assert company_name_field in audit_logs_new_value

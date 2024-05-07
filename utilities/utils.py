@@ -146,6 +146,7 @@ class Util_Test:
                         banner.style.textAlign = 'center'; 
                         banner.style.lineHeight = '50px'; 
                         banner.style.zIndex = '9999'; 
+                        banner.style.pointerEvents = 'none'; 
                         banner.innerHTML = '{text_for_banner}'; 
                         document.body.appendChild(banner); 
                     '''

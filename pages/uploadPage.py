@@ -200,7 +200,6 @@ class Upload_Page:
         self.click_file_menu()
         self.verifyOptionsUnderFileMenu()
         time.sleep(2)
-        Util_Test.getscreenshot("/Delete_button_disabled.png")
         delete_button_verify = self.driver.find_element(By.XPATH, self.delete_document_btn)
         delete_button_disabled = delete_button_verify.get_attribute("aria-disabled")
         assert delete_button_disabled

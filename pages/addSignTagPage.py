@@ -129,6 +129,6 @@ class Add_Sign_Tags:
         source = WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, self.Text_field)))
         action = ActionChains(self.driver)
-        action.click_and_hold(source).move_by_offset(400, 0).pause(2).move_by_offset(-10, -10).release().perform()
+        action.click_and_hold(source).move_by_offset(400,-90).pause(2).move_by_offset(-10, -10).release().perform()
         time.sleep(1)
 

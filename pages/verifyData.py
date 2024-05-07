@@ -14,7 +14,7 @@ import os
 class Envelope_History:
     def __init__(self, driver):
         self.driver = driver
-
+        self.utils = Util_Test(driver)
         # Locators:
         self.manage_tab = "//button[@data-qa='header-MANAGE-tab-button']"
         self.sent_box = "button[data-qa='manage-sidebar-labels-sent-label']"
@@ -110,7 +110,7 @@ class Envelope_History:
             if handle != main_window:
                 childWindow = handle
                 self.driver.switch_to.window(childWindow)
-        Util_Test.getscreenshot("/date_format.png")
+        self.utils.getscreenshot("/date_format.png")
         time.sleep(2)
         self.driver.close()
         self.driver.switch_to.window(parentWindow)
@@ -129,7 +129,7 @@ class Envelope_History:
         label1 = self.driver.find_element(By.XPATH, self.user_label)
         scroll_origin = ScrollOrigin.from_element(label1)
         ActionChains(self.driver).scroll_from_origin(scroll_origin, 0, 500).perform()
-        Util_Test.getscreenshot("/1.EnvelopeHistory.png")
+        self.utils.getscreenshot("/1.EnvelopeHistory.png")
         userLabel = self.driver.find_element(By.XPATH, self.user_label).text
         print(userLabel)
         text_userName = self.driver.find_element(By.XPATH, self.user_name_text).text
@@ -141,7 +141,7 @@ class Envelope_History:
         dash_board_label = WebDriverWait(self.driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, self.dash_board_label)))
         if dash_board_label:
-            Util_Test.getscreenshot("/2.Reports_page.png")
+            self.utils.getscreenshot("/2.Reports_page.png")
         WebDriverWait(self.driver, 40).until(EC.element_to_be_clickable((By.XPATH, self.envelope_button))).click()
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, self.view_button))).click()
         WebDriverWait(self.driver, 20).until(
@@ -182,7 +182,7 @@ class Envelope_History:
         user_email = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((
             By.XPATH, self.user_email_text_box))).is_displayed()
         assert user_email
-        Util_Test.getscreenshot('/1.Add_user_page.png')
+        self.utils.getscreenshot('/1.Add_user_page.png')
         random_user = generate_random_userName()
         user_name = random_user['full_name']
 
@@ -205,17 +205,17 @@ class Envelope_History:
         time.sleep(2)
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.user_name_search_box))).send_keys(user_name)
-        WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, self.user_search_btn))).click()
+        WebDriverWait(self.driver, 60).until(EC.element_to_be_clickable((By.XPATH, self.user_search_btn))).click()
         username_in_record = WebDriverWait(self.driver, 20).until(
             EC.visibility_of_element_located((By.XPATH, self.user_record))).text
         print("username_in_record:", username_in_record)
         assert username_in_record == user_name
-        Util_Test.getscreenshot("/2.Added_user_details.png")
+        self.utils.getscreenshot("/2.Added_user_details.png")
 
     def click_email_preferences(self):
         time.sleep(5)
         WebDriverWait(self.driver, 45).until(EC.element_to_be_clickable((By.XPATH, self.email_preferences))).click()
-        Util_Test.getscreenshot('/3.Options_under_email_preferences.png')
+        self.utils.getscreenshot('/3.Options_under_email_preferences.png')
 
     def validatingOptionsUnderEmailPreferences(self):
         assert all(WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((
@@ -237,7 +237,7 @@ class Envelope_History:
             By.XPATH, self.cancel_button))).is_displayed()
         time.sleep(2)
         if screenshot:
-            Util_Test.getscreenshot("/4.uncheck_email_preferences.png")
+            self.utils.getscreenshot("/4.uncheck_email_preferences.png")
 
     def verifying_email_prefs_header(self):
         WebDriverWait(self.driver, 60).until(EC.element_to_be_clickable((

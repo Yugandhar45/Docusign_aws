@@ -1,9 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver import ActionChains
-from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 from utilities.utils import Util_Test
 from testData import constants as constants
 import time
@@ -12,7 +9,7 @@ import time
 class Templates_Page:
     def __init__(self, driver):
         self.driver = driver
-
+        self.utils = Util_Test(driver)
         # Locators:
         self.envelope_status = "//span[@data-qa='detail-status-title']"
         self.more_menu_button = "//button[@data-qa='document-more']"
@@ -40,7 +37,7 @@ class Templates_Page:
             By.XPATH, self.envelope_status))).text
         print("Template status:", temp_status)
         assert temp_status == constants.template_status_draft
-        Util_Test.getscreenshot("/Template_status_draft.png")
+        self.utils.getscreenshot("/Template_status_draft.png")
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, self.more_menu_button))).click()
         assert all(WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((
             By.XPATH, xpath))).is_displayed() for xpath in
@@ -57,7 +54,7 @@ class Templates_Page:
         # time.sleep(60)
         try:
             assert templates_page == constants.templatesPage
-            Util_Test.getscreenshot("/Templates_page.png")
+            self.utils.getscreenshot("/Templates_page.png")
         except:
             print("no error")
 
