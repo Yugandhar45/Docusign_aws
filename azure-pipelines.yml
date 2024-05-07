@@ -45,3 +45,5 @@ jobs:
     displayName: 'Publish HTML report artifact'
     condition: always()
 
+variables:
+  TriggeringUser: $[ coalesce(variables['Build.RequestedFor'], 'Unknown') ]

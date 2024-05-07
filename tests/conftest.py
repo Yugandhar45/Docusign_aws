@@ -97,7 +97,9 @@ def pytest_runtest_makereport(item, call):
 
 # It is Hook for adding environment info to HTML reports
 def pytest_configure(config):
+    os.environ['TRIGGERING_USER'] = os.environ.get('BUILD_REQUESTED_FOR', 'Unknown')
     config._metadata['Project Name'] = 'Docusign'
+    config._metadata['Triggering User'] = os.environ['TRIGGERING_USER']
     config._metadata['Tester Name'] = getpass.getuser()
     config._metadata['UTC Time'] = datetime.now(pytz.UTC)
 
