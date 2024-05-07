@@ -1,0 +1,4 @@
+steps:
+- script: |
+    echo "Pipeline triggered by: $(Build.RequestedFor)"
+  displayName: 'Print Triggering User'
