@@ -73,8 +73,8 @@ class Test_DeclineEnvelope:
     def test_verify_decline_notification(self, request):
         driver = request.cls.driver
         driver.get(constants.outlook_url)
-        outlook = Outlook_Page(driver)
         utils = Util_Test(driver)
+        outlook = Outlook_Page(driver)
         utils.execute_script_with_banner("Logging to outlook as a sender")
         outlook.loginToOutlook(constants.sender_email, constants.sender_password_outlook)
         utils.execute_script_with_banner("Selecting the Declined mail")
