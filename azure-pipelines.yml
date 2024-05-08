@@ -21,7 +21,7 @@ jobs:
     displayName: 'Print Triggering User'
 
   - script: |
-      if [ "$(Build.Reason)" == "IndividualCI" ]; then
+      if [ $(Build.Reason) == IndividualCI ]; then
         TRIGGERING_USER=$(git log -1 --format='%an')
       else
         TRIGGERING_USER=$(Build.RequestedFor)
