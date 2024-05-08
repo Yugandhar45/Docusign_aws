@@ -41,7 +41,7 @@ class Util_Test:
         assert "Last Activity (Time)" in date_time_columns
         assert "Completed On (Date)" in date_time_columns
         assert "Completed On (Time)" in date_time_columns
-        self.driver.save_screenshot('./screenshots/Envelope_csv_report.png')
+        self.driver.save_screenshot('./screenshots/sample.png')
 
     def logout(self):
         WebDriverWait(self.driver, 60).until(EC.visibility_of_element_located((
@@ -106,7 +106,7 @@ class Util_Test:
         text_position = (text_padding, image_height - text_height - text_padding)
         draw.text(text_position, current_datetime, fill="black", font=font)
         filepath = os.path.abspath(Util_Test.folder_path) + fileName
-        print("file path =", filepath)
+        #print("file path =", filepath)
         image.save(filepath)
 
     @staticmethod

@@ -122,7 +122,7 @@ class Home_Page:
         WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable((
             By.CSS_SELECTOR, self.send_envelope_btn))).click()
         try:
-            WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((
+            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((
                 By.XPATH, self.hide_btn))).click()
             WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((
                 By.XPATH, self.got_it_btn))).click()

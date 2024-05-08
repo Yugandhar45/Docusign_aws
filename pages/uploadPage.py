@@ -77,7 +77,6 @@ class Upload_Page:
         self.view_document_btn = "//button[@data-qa='view-document']"
 
     def upload_envelope_documents(self, filename, wootricPopup=False, root_directory=None):
-        print('Started Document uploading')
         time.sleep(2)
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, self.upload_file_button))).click()
@@ -87,12 +86,11 @@ class Upload_Page:
             root_directory = os.getcwd()
             relative_path = Path(filename)
             document_path = root_directory / relative_path
-            print("Document path =", document_path)
+            #print("Document path =", document_path)
             file_path = Path(document_path)
             document_path = str(file_path)
             browse_button.send_keys(document_path)
             time.sleep(2)
-       # document_path = os.path.join(root_directory, 'resources', 'Envelope1.docx')
 
         if wootricPopup:
             self.driver.find_element(By.ID, self.wootric_close_button).click()
