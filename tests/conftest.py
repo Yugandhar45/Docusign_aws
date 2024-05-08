@@ -22,7 +22,7 @@ def pytest_addoption(parser):
 @pytest.fixture(scope='class')
 def test_setup(request):
     # Suppress DeprecationWarning for HTTPResponse.getheader()
-    warnings.filterwarnings("ignore", category=DeprecationWarning)
+    #warnings.filterwarnings("ignore", category=DeprecationWarning)
     driver = None
     browser = request.config.getoption("--browser")
     if browser == "chrome":
