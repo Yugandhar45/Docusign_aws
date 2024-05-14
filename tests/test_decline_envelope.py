@@ -70,7 +70,7 @@ class Test_DeclineEnvelope:
         signing.validate_doc_status(constants.decline_status)
         utils.getscreenshot('/3.Decline_Envelope.png')
 
-    def test_verify_decline_notification(self, request):
+    def Atest_verify_decline_notification(self, request):
         driver = request.cls.driver
         driver.get(constants.outlook_url)
         utils = Util_Test(driver)

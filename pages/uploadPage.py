@@ -27,7 +27,7 @@ class Upload_Page:
         self.upload_file_input = "input[data-qa='upload-file-input']"
         self.wootric_close_button = "wootric-close"
         self.add_recipients_content = "button[aria-controls='add-recipients-content']"
-        self.select_document = "//div[contains(text(), 'document_name')]"
+        self.select_document = "//button[@aria-label='Complete with DocuSign: document_name']"
         self.correct_resend_button = "button[data-qa='footer-simple-correct-resend-link']"
         self.manage_tab = "button[data-qa='header-MANAGE-tab-button']"
         self.approver_name1 = "(//span[@data-qa='recipient-name'])[1]"
@@ -220,6 +220,7 @@ class Upload_Page:
         else:
             time.sleep(10)
         select_doc = self.select_document.replace("document_name", fileName)
+        print("document xpath =",select_doc)
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, select_doc))).click()
         time.sleep(2)

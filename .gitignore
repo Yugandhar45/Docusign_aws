@@ -3,3 +3,4 @@
 
 # Optionally, you can ignore cache directories as well
 **/__pycache__/
+**/archive/
