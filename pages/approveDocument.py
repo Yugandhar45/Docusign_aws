@@ -4,10 +4,10 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from pages.loginPage import Login_Page
 from testData import constants as constants
-from utilities.generateutils import generate_random_text
+#from utilities.generateutils import generate_random_text
 import time
 
-generated_text = generate_random_text()
+
 class Approve_Envelope:
     def __init__(self, driver):
         self.driver = driver
@@ -104,7 +104,8 @@ class Approve_Envelope:
             EC.visibility_of_element_located((By.XPATH, self.required_label))).is_displayed()
 
     def add_comment(self):
-        comments = f"{constants.comment_field} - {generated_text}"
+        #comments = f"{constants.comment_field} - {generated_text}"
+        comments = constants.comment_field
         comment_text_field = WebDriverWait(self.driver, 60).until(
             EC.visibility_of_element_located((By.XPATH, self.comment_entry_field)))
         assert comment_text_field.is_displayed(), 'Comment field is not displayed'
