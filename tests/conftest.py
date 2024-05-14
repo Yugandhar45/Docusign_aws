@@ -21,8 +21,6 @@ def pytest_addoption(parser):
 
 @pytest.fixture(scope='class')
 def test_setup(request):
-    # Suppress DeprecationWarning for HTTPResponse.getheader()
-    #warnings.filterwarnings("ignore", category=DeprecationWarning)
     driver = None
     browser = request.config.getoption("--browser")
     if browser == "chrome":
@@ -75,10 +73,10 @@ def pytest_runtest_makereport(item, call):
     pytest_html = item.config.pluginmanager.getplugin("html")
     outcome = yield
     report = outcome.get_result()
-    extra = getattr(report, "extra", [])
+    #extra = getattr(report, "extra", [])
     if report.when == "call" or report.when == "test_setup":
         # adding url to report
-        extra.append(pytest_html.extras.url(os.path.abspath(constants.screenshots_path)))
+        # extra.append(pytest_html.extras.url(os.path.abspath(constants.screenshots_path)))
         xfail = hasattr(report, "wasxfail")
         if (report.skipped and xfail) or (report.failed and not xfail):
             driver = item.funcargs.get('driver', None)
@@ -90,9 +88,9 @@ def pytest_runtest_makereport(item, call):
                 if file_name:
                     html = '<div><img src="%s" alt="screenshot" style="width:304px;height:228px;" ' \
                            'onclick="window.open(this.src)" align="right"/></div>' % filename
-                extra.append(pytest_html.extras.html(html))
+                #extra.append(pytest_html.extras.html(html))
 
-        report.extra = extra
+       # report.extra = extra
 
 
 # It is Hook for adding environment info to HTML reports

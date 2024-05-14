@@ -12,10 +12,25 @@ from pathlib import Path
 import os
 import time
 from PIL import ImageGrab, Image, ImageDraw, ImageFont
+import logging
+from logging.handlers import RotatingFileHandler
 
+# Initialize logger and file handler outside the method
+log_formatter = logging.Formatter('%(message)s %(asctime)s %(levelname)s')
+log_file = 'execution_log.log'
 
+# Create a rotating file handler
+file_handler = RotatingFileHandler(log_file, mode='a')
+file_handler.setFormatter(log_formatter)
+file_handler.setLevel(logging.INFO)
+
+# Create a logger
+logger = logging.getLogger('execution_logger')
+logger.setLevel(logging.INFO)
+logger.addHandler(file_handler)
 class Util_Test:
     folder_path = constants.screenshots_path
+    logs_folder_path = constants.custom_logs_path
 
     def __init__(self, driver):
         self.driver = driver
@@ -92,6 +107,16 @@ class Util_Test:
             Util_Test.folder_path = os.path.join(root_directory, 'screenshots', folder_name)
         os.makedirs(Util_Test.folder_path)
 
+    @staticmethod
+    def create_directory_for_customlogs(self, test_name, root_directory=None):
+        timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        folder_name = test_name + '_' + timestamp
+        # global folder_path
+        if root_directory is None:
+            root_directory = os.getcwd()
+            Util_Test.logs_folder_path = os.path.join(root_directory, 'executionlogs', folder_name)
+        os.makedirs(Util_Test.logs_folder_path)
+
     def getscreenshot(self, fileName):
         screenshot = self.driver.get_screenshot_as_png()
         image = Image.open(BytesIO(screenshot))
@@ -153,3 +178,23 @@ class Util_Test:
             self.driver.execute_script(script)
             # Speak
             # self.speak(text)
+
+    @staticmethod
+    def write_custom_logs(line):
+        def log_execution(statement):
+            logger.info(statement)
+
+        log_execution(line)  # Call the log_execution function with the provided line
+        # log_formatter = logging.Formatter('%(message)s %(asctime)s %(levelname)s')
+        # log_file = 'execution_log.log'
+        #
+        # # Create a rotating file handler
+        # file_handler = RotatingFileHandler(log_file, mode='a')
+        # file_handler.setFormatter(log_formatter)
+        # file_handler.setLevel(logging.INFO)
+        #
+        # # Create a logger
+        # logger = logging.getLogger('execution_logger')
+        # logger.setLevel(logging.INFO)
+        # logger.addHandler(file_handler)
+

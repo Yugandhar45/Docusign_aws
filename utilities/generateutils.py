@@ -2,6 +2,8 @@ import logging as logger
 import random
 import string
 
+Generated_text = None
+
 
 def generate_string(company_prefix=None):
     logger.info('Generate random string')
@@ -13,6 +15,14 @@ def generate_string(company_prefix=None):
     company_name = company_prefix + ' ' + random_string
     random_info = {'company_name': company_name}
     return random_info
+
+
+def generate_random_text():
+    global Generated_text
+    random_info = generate_string()
+    logger.info(random_info)
+    Generated_text = random_info['generated_text']  # Assign value to global variable
+    return Generated_text
 
 
 def generate_random_userName(user_name_prefix=None):

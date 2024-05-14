@@ -44,6 +44,7 @@ class Add_Sign_Tags:
         self.edit_recepient_button = "//span[@data-qa='edit-message-text']"
         self.edit_document_button = "//span[@data-qa='edit-documents-text']"
         self.advanced_options_button = "//span[@data-qa='edit-advanced-options-text']"
+        self.successful_msg = "//div[@data-qa='ds-toast-content-text']/span[1]"
 
     def select_signer(self, index_number):
         WebDriverWait(self.driver, 45).until(
@@ -77,10 +78,15 @@ class Add_Sign_Tags:
         send_btn.click()
         try:
             WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((
-                By.CSS_SELECTOR, self.no_thanks_link))).click()
+                By.XPATH, self.no_thanks_link))).click()
         except:
             print("No thanks link is not available")
-
+        try:
+            success_message = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((
+                By.XPATH, self.successful_msg))).text
+            assert constants.success_message in success_message
+        except:
+            print("assertion failure")
         WebDriverWait(self.driver, 60).until(EC.element_to_be_clickable((By.XPATH, self.home_tab))).click()
 
     def validateOptionsUnderSignature(self):
@@ -125,10 +131,27 @@ class Add_Sign_Tags:
         scroll_origin = ScrollOrigin.from_element(scroll_page)
         ActionChains(self.driver).scroll_from_origin(scroll_origin, 0, 1150).perform()
 
+    # def add_comment_field(self):
+    #     source = WebDriverWait(self.driver, 20).until(
+    #         EC.element_to_be_clickable((By.CSS_SELECTOR, self.Text_field)))
+    #     action = ActionChains(self.driver)
+    #     action.click_and_hold(source).move_by_offset(400, -90).pause(2).move_by_offset(-10, -10).release().perform()
+    #     time.sleep(1)
     def add_comment_field(self):
         source = WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, self.Text_field)))
         action = ActionChains(self.driver)
-        action.click_and_hold(source).move_by_offset(400,-90).pause(2).move_by_offset(-10, -10).release().perform()
-        time.sleep(1)
+        action.click_and_hold(source).perform()
 
+        # Get the dimensions of the document page
+        document_page = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, self.document_page)))
+        page_width, page_height = document_page.size.get('width'), document_page.size.get('height')
+        print("Document page width and page height =", page_width, page_height)
+        # Calculate the desired position based on the page dimensions
+        x_offset = int(page_width * 0.7)  # 60% of the page width
+        y_offset = int(page_height * -0.1)  # 20% of the page height
+        print(x_offset, y_offset)
+
+        action.move_by_offset(x_offset, y_offset).pause(2).move_by_offset(-10, -10).release().perform()
+        time.sleep(2)

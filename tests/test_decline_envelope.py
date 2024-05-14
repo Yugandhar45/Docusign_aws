@@ -52,7 +52,7 @@ class Test_DeclineEnvelope:
         utils.execute_script_with_banner("Sending Document to Signer")
         utils.execute_script_with_banner("Logout as Sender, After sending Document to signer")
         utils.logout()
-        # Login as approver1 and decline to sign
+        # Login as approver_1 and decline to sign
         driver.get(constants.baseUrl)
         time.sleep(3)
         utils.execute_script_with_banner("Login to DocuSign again, this time using the signer credentials", False)

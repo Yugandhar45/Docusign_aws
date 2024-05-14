@@ -19,6 +19,7 @@ class Home_Page:
         self.home_tab = "button[data-qa='header-HOME-tab-button']"
         self.send_documents_for_signature = "/div[@class='css-vrm39m']"
         self.start_button = "//span [contains(text(),'Start')]/parent::button"
+        self.envelope_subMenu_btn ="//button[@data-qa='envelopes-submenu-trigger']"
         self.send_envelope_btn = "button[data-qa='manage-sidebar-actions-ndse-send_envelope']"
         self.upload_file_button = "button[data-qa='upload-file-button']"
         self.browse_button = "label[class='css-rpxvy8']"
@@ -117,9 +118,9 @@ class Home_Page:
                 retry_count += 1
 
     def send_envelope(self):
-        WebDriverWait(self.driver, 90).until(EC.visibility_of_element_located((
-            By.CSS_SELECTOR, self.send_envelope_btn)))
-        WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable((
+        WebDriverWait(self.driver, 60).until(EC.visibility_of_element_located((
+            By.XPATH, self.envelope_subMenu_btn))).click()
+        WebDriverWait(self.driver, 60).until(EC.element_to_be_clickable((
             By.CSS_SELECTOR, self.send_envelope_btn))).click()
         try:
             WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((
