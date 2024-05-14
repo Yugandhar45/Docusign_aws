@@ -43,19 +43,18 @@ jobs:
     inputs:
       targetPath: tests/screenshots/
       artifact: 'screenshots'
-    displayName: 'Publish screenshots'
+    displayName: 'Publish screenshots artifact'
     condition: always()
 
-  - task: PublishPipelineArtifact@2
+  - task: PublishPipelineArtifact@1
     inputs:
       targetPath: tests/executionlogs/
-      artifact: 'Executionlogs'
-    displayName: 'Publish executionlogs'
+      artifact: 'executionlogs'
+    displayName: 'Publish Executionlogs artifact'
     condition: always()
-
-  - task: PublishPipelineArtifact@3
+  - task: PublishPipelineArtifact@1
     inputs:
       targetPath: 'tests/reports'
       artifact: 'html-test-report'
-    displayName: 'Publish HTML report'
+    displayName: 'Publish HTML report artifact'
     condition: always()
