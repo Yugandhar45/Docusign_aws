@@ -8,7 +8,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from testData import constants as constants
 import pandas as pd
-from pathlib import Path
 import os
 import time
 from PIL import ImageGrab, Image, ImageDraw, ImageFont
@@ -16,18 +15,9 @@ import logging
 from logging.handlers import RotatingFileHandler
 
 # Initialize logger and file handler outside the method
-log_formatter = logging.Formatter('%(message)s %(asctime)s %(levelname)s')
-log_file = 'execution_log.log'
+log_formatter = logging.Formatter(' %(message)s %(asctime)s', datefmt='%Y-%m-%d %H:%M:%S')
 
-# Create a rotating file handler
-file_handler = RotatingFileHandler(log_file, mode='a')
-file_handler.setFormatter(log_formatter)
-file_handler.setLevel(logging.INFO)
 
-# Create a logger
-logger = logging.getLogger('execution_logger')
-logger.setLevel(logging.INFO)
-logger.addHandler(file_handler)
 class Util_Test:
     folder_path = constants.screenshots_path
     logs_folder_path = constants.custom_logs_path
@@ -180,21 +170,22 @@ class Util_Test:
             # self.speak(text)
 
     @staticmethod
-    def write_custom_logs(line):
-        def log_execution(statement):
-            logger.info(statement)
+    def initialize_logger(test_case):
+        log_folder = "executionlogs"
+        if not os.path.exists(log_folder):
+            os.makedirs(log_folder)
+        log_file = os.path.join(log_folder, f"{test_case}_execution.log")
 
-        log_execution(line)  # Call the log_execution function with the provided line
-        # log_formatter = logging.Formatter('%(message)s %(asctime)s %(levelname)s')
-        # log_file = 'execution_log.log'
-        #
-        # # Create a rotating file handler
-        # file_handler = RotatingFileHandler(log_file, mode='a')
-        # file_handler.setFormatter(log_formatter)
-        # file_handler.setLevel(logging.INFO)
-        #
-        # # Create a logger
-        # logger = logging.getLogger('execution_logger')
-        # logger.setLevel(logging.INFO)
-        # logger.addHandler(file_handler)
+        file_handler = RotatingFileHandler(log_file, mode='w')
+        file_handler.setFormatter(log_formatter)
+        file_handler.setLevel(logging.INFO)
 
+        logger = logging.getLogger(test_case)
+        logger.setLevel(logging.INFO)
+        logger.addHandler(file_handler)
+
+        return logger
+
+    @staticmethod
+    def write_custom_logs(logger, line):
+        logger.info(line)

@@ -37,18 +37,25 @@ jobs:
   - script: |
       cd $(Build.SourcesDirectory)/tests
       pytest -v -s -vv -p no:warnings --html=reports\report.html --self-contained-html --capture=tee-sys
-    displayName: 'Run tests with capturing screenshots on failure'
+    displayName: 'Run tests'
 
   - task: PublishPipelineArtifact@1
     inputs:
       targetPath: tests/screenshots/
       artifact: 'screenshots'
-    displayName: 'Publish screenshots artifact'
+    displayName: 'Publish screenshots'
     condition: always()
 
-  - task: PublishPipelineArtifact@1
+  - task: PublishPipelineArtifact@2
+    inputs:
+      targetPath: tests/executionlogs/
+      artifact: 'Executionlogs'
+    displayName: 'Publish executionlogs'
+    condition: always()
+
+  - task: PublishPipelineArtifact@3
     inputs:
       targetPath: 'tests/reports'
       artifact: 'html-test-report'
-    displayName: 'Publish HTML report artifact'
+    displayName: 'Publish HTML report'
     condition: always()
