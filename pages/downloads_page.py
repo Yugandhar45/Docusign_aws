@@ -19,7 +19,7 @@ class Download_Page:
         self.download_combine_button = "button[data-qa='download-document-button']"
         self.envelope_id_link = "span[data-qa='envelope-id-link-text']"
         self.envelope_id = "p[data-qa='document-id']"
-        self.select_document = "//div[contains(text(), 'document_name')]"
+        self.select_document = "//button[@aria-label='Complete with DocuSign: document_name']"
         self.start_button = "button[data-qa='manage-sidebar-actions-ndse-trigger']"
         self.all_checkbox = "//span[@data-qa='download-all-label-label-text']"
         self.document_checkbox = "//span[contains(text(),'Document')]"
@@ -51,12 +51,11 @@ class Download_Page:
                     self.certificate_of_completion_checkbox, self.combine_all_pdfs_checkbox])
         WebDriverWait(self.driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, self.combine_all_pdfs_checkbox))).click()
-        WebDriverWait(self.driver, 30).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, self.download_combine_button))).click()
-        time.sleep(5)
         if screenshot:
             utils = Util_Test(self.driver)
-            utils.getscreenshot('/3.Downloading_the_Combined_pdf_documents.png')
+            utils.getscreenshot('/5.Downloading_the_Combined_pdf_documents.png')
+        WebDriverWait(self.driver, 30).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, self.download_combine_button))).click()
         time.sleep(25)
 
     def getting_envelope_id(self):

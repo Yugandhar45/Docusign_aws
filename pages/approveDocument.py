@@ -4,6 +4,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from pages.loginPage import Login_Page
 from testData import constants as constants
+from utilities.utils import Util_Test
 #from utilities.generateutils import generate_random_text
 import time
 
@@ -11,6 +12,7 @@ import time
 class Approve_Envelope:
     def __init__(self, driver):
         self.driver = driver
+        self.utils = Util_Test(driver)
         # Elements:
         self.continue_button = "action-bar-btn-continue"
         self.sign_field = "(//*[contains(@class, 'signature-tab-content')])[index]"
@@ -76,7 +78,7 @@ class Approve_Envelope:
         sign_field = self.sign_field.replace('index', index_value)
         WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, sign_field))).click()
 
-    def e_sign_reason(self, verifyOptions=False):
+    def e_sign_reason(self, verifyOptions=False,screenshot=False):
         drop_down = self.driver.find_element(By.ID, self.signing_reason)
         select_method = Select(drop_down)
         if verifyOptions:
@@ -85,9 +87,12 @@ class Approve_Envelope:
                        [self.approve_doc_option, self.review_doc_option, self.author_doc_option])
 
         select_method.select_by_visible_text(constants.signingReason)
+        if screenshot:
+            self.utils.getscreenshot('/3.signing_reason.png')
+
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, self.dialog_submit))).click()
 
-    def switchToNewTab(self, email, password):
+    def switchToNewTab(self, email, password, screenshot=False):
         parent_window = self.driver.current_window_handle
         main_window = self.driver.window_handles
         for handle in self.driver.window_handles:
@@ -95,8 +100,12 @@ class Approve_Envelope:
                 popup = handle
                 self.driver.switch_to.window(popup)
         login = Login_Page(self.driver)
-        login.login_page(email, password)
-        time.sleep(4)
+        if screenshot:
+            login.login_page(email, password,True)
+            time.sleep(4)
+        else:
+            login.login_page(email, password)
+            time.sleep(4)
         self.driver.switch_to.window(parent_window)
 
     def verify_required_message(self):

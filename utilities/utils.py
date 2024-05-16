@@ -10,12 +10,12 @@ from testData import constants as constants
 import pandas as pd
 import os
 import time
-from PIL import ImageGrab, Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont
 import logging
 from logging.handlers import RotatingFileHandler
 
 # Initialize logger and file handler outside the method
-log_formatter = logging.Formatter(' %(message)s %(asctime)s', datefmt='%Y-%m-%d %H:%M:%S')
+log_formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s ', datefmt='%Y-%m-%d %H:%M:%S')
 
 
 class Util_Test:

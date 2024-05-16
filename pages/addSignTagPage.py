@@ -131,12 +131,6 @@ class Add_Sign_Tags:
         scroll_origin = ScrollOrigin.from_element(scroll_page)
         ActionChains(self.driver).scroll_from_origin(scroll_origin, 0, 1150).perform()
 
-    # def add_comment_field(self):
-    #     source = WebDriverWait(self.driver, 20).until(
-    #         EC.element_to_be_clickable((By.CSS_SELECTOR, self.Text_field)))
-    #     action = ActionChains(self.driver)
-    #     action.click_and_hold(source).move_by_offset(400, -90).pause(2).move_by_offset(-10, -10).release().perform()
-    #     time.sleep(1)
     def add_comment_field(self):
         source = WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, self.Text_field)))

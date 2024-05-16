@@ -7,8 +7,8 @@
 #
 #
 # @pytest.mark.usefixtures("test_setup")
-# class Test_Verify_Email_Preferences:
-#     def test_verify_email_preferences(self, request):
+# class Test_Add_User:
+#     def test_create_new_user(self, request):
 #         driver = request.cls.driver
 #         driver.get(constants.baseUrl)
 #         login = Login_Page(driver)
@@ -23,16 +23,16 @@
 #         utils.execute_script_with_banner("Home page is Displayed")
 #         home.validate_home_page()
 #         user = Envelope_History(driver)
-#         utils.execute_script_with_banner("Creating the new user", False)
+#         utils.execute_script_with_banner("Creating the new user by filling all required fields and save", False)
 #         user.creating_user()
-#         utils.execute_script_with_banner("Filling all the Required fields and saving the changes")
-#         user.click_email_preferences()
-#         user.validatingOptionsUnderEmailPreferences()
-#         user.verifying_email_prefs_header()
-#         user.updating_email_preferences(True)
-#         # Changing defaulting setting back by checking all preferences
-#         utils.execute_script_with_banner("Changing the default settings")
-#         user.verifying_email_prefs_header()
-#         user.updating_email_preferences()
-#         utils.execute_script_with_banner("Logout as a User after making the changes")
+#         # utils.execute_script_with_banner("Filling all the Required fields and saving the changes")
+#         # user.click_email_preferences()
+#         # user.validatingOptionsUnderEmailPreferences()
+#         # user.verifying_email_prefs_header()
+#         # user.updating_email_preferences(True)
+#         # # Changing defaulting setting back by checking all preferences
+#         # utils.execute_script_with_banner("Changing the default settings")
+#         # user.verifying_email_prefs_header()
+#         # user.updating_email_preferences()
+#         # utils.execute_script_with_banner("Logout as a User after making the changes")
 #         utils.logout()

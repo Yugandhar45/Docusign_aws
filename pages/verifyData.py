@@ -206,11 +206,11 @@ class Envelope_History:
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.user_name_search_box))).send_keys(user_name)
         WebDriverWait(self.driver, 60).until(EC.element_to_be_clickable((By.XPATH, self.user_search_btn))).click()
+        self.utils.getscreenshot("/2.Added_user_details.png")
         username_in_record = WebDriverWait(self.driver, 20).until(
             EC.visibility_of_element_located((By.XPATH, self.user_record))).text
         print("username_in_record:", username_in_record)
         assert username_in_record == user_name
-        self.utils.getscreenshot("/2.Added_user_details.png")
 
     def click_email_preferences(self):
         time.sleep(5)
