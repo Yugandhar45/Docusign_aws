@@ -1,7 +1,6 @@
 import base64
 from datetime import datetime
 from io import BytesIO
-
 import pypdf
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -121,7 +120,7 @@ class Util_Test:
         text_position = (text_padding, image_height - text_height - text_padding)
         draw.text(text_position, current_datetime, fill="black", font=font)
         filepath = os.path.abspath(Util_Test.folder_path) + fileName
-        #print("file path =", filepath)
+        # print("file path =", filepath)
         image.save(filepath)
 
     @staticmethod
@@ -189,3 +188,4 @@ class Util_Test:
     @staticmethod
     def write_custom_logs(logger, line):
         logger.info(line)
+

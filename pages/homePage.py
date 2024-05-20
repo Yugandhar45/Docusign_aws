@@ -76,6 +76,7 @@ class Home_Page:
         self.completed_count = "//button[@data-qa='completed-count']"
         self.profile_button_avatar = "//span[@data-qa='header-profile-menu-button-avatar']"
         self.my_preferences = "//button[@data-qa='header-choice-PREFERENCES-button']"
+        self.cancel_focus_container = "//div[@data-qa='focus-trap-container']//button[1]"
 
     def validate_home_page(self):
         max_retries = 2
@@ -96,6 +97,13 @@ class Home_Page:
             EC.visibility_of_element_located((By.XPATH, self.action_required_button))).is_displayed()
         WebDriverWait(self.driver, 60).until(
             EC.visibility_of_element_located((By.XPATH, self.completed_count))).is_displayed()
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.visibility_of_element_located((By.XPATH, self.cancel_focus_container))).click()
+            WebDriverWait(self.driver, 10).until(
+                EC.visibility_of_element_located((By.XPATH, self.cancel_focus_container))).click()
+        except:
+            print(" ")
 
     def click_userprofile_and_preferences(self):
         WebDriverWait(self.driver, 60).until(
