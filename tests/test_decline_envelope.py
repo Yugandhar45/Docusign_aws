@@ -12,7 +12,7 @@ import pytest
 
 logger = Util_Test.initialize_logger('DeclineEnvelope')
 
-
+  
 @pytest.mark.usefixtures("test_setup")
 class Test_DeclineEnvelope:
 

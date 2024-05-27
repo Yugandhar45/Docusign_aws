@@ -180,6 +180,8 @@ class Approve_Envelope:
             EC.element_to_be_clickable((By.XPATH, self.void_option))).click()
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.void_reason_box))).send_keys(constants.void_reason)
+        utils = Util_Test(self.driver)
+        utils.getscreenshot('/1.Reason_for_voiding.png')
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.void_button))).click()
         time.sleep(2)
