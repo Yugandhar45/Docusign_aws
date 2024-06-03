@@ -121,6 +121,10 @@ class Home_Page:
                     By.XPATH, self.start_button))).is_displayed()
                 WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable((
                     By.XPATH, self.start_button))).click()
+                WebDriverWait(self.driver, 90).until(EC.visibility_of_element_located((
+                    By.XPATH, self.envelope_subMenu_btn))).is_displayed()
+                WebDriverWait(self.driver, 90).until(EC.visibility_of_element_located((
+                    By.XPATH, self.envelope_subMenu_btn))).click()
                 break
             except (StaleElementReferenceException, TimeoutException):
                 retry_count += 1
