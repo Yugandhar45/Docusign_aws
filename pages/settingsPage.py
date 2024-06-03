@@ -64,11 +64,12 @@ class Settings_Page:
         WebDriverWait(self.driver, 60).until(EC.visibility_of_element_located((
             By.XPATH, self.regional_settings_preferences))).click()
         time.sleep(2)
-        dt_dropDown = WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable((
+        dt_dropDown = WebDriverWait(self.driver, 45).until(EC.element_to_be_clickable((
             By.XPATH, self.date_time_format_dropdown)))
         if dt_dropDown:
             select = Select(dt_dropDown)
             select.select_by_value(constants.mm_dd_yyyy_format)
+            self.utils.getscreenshot('/1.BeforeDateTimeFormatChange.png')
             WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((
                 By.XPATH, self.preferences_save_button))).click()
             time.sleep(2)
@@ -77,7 +78,7 @@ class Settings_Page:
                 By.XPATH, self.preferences_save_button))).click()
             success_msg = WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((
                 By.XPATH, self.success_message_date_time_format_change))).text
-            self.utils.getscreenshot('/1.UserAllowedToChangeDateTimeFormat.png')
+            self.utils.getscreenshot('/2.UserAllowedToChangeDateTimeFormat.png')
             print("Data/Time format:", success_msg)
             assert success_msg == constants.date_time_change_success_message
 
@@ -88,7 +89,7 @@ class Settings_Page:
         dateTimeTextBox = WebDriverWait(self.driver, 5).until(
             EC.visibility_of_element_located((By.XPATH, self.date_time_format_text))).is_enabled()
         #assert not dateTimeTextBox
-        self.utils.getscreenshot('/2.userNotAllowToChangeDateTimeFormat.png')
+        self.utils.getscreenshot('/3.userNotAllowToChangeDateTimeFormat.png')
         print(constants.cannot_change_date_time_format)
 
     def verify_regional_settings_page(self):

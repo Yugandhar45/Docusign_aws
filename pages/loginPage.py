@@ -23,5 +23,5 @@ class Login_Page:
         WebDriverWait(self.driver, 60).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, self.password))).send_keys(password)
         if screenshot:
-            self.utils.getscreenshot('/4.Authentication_required.png')
+            self.utils.getscreenshot('/3.2.Authentication_required.png')
         self.driver.find_element(By.CSS_SELECTOR, self.submit_password).click()

@@ -67,6 +67,8 @@ class Approve_Envelope:
         self.review_doc_option = "//option[contains(text(),'I have reviewed this document')]"
         self.author_doc_option = "//option[contains(text(),'I am the author of this document')]"
         self.required_label = "//label[normalize-space()='Required']"
+        self.access_code_textbox = "//input[@id='ds_hldrBdy_txtAccessCode']"
+        self.validate_access_code_button = "//button[@id='ds_hldrBdy_btnDSAccessCode_btnInline']"
 
     def clickContinueBtnForSigning(self):
         continue_btn = WebDriverWait(self.driver, 60).until(
@@ -88,7 +90,7 @@ class Approve_Envelope:
 
         select_method.select_by_visible_text(constants.signingReason)
         if screenshot:
-            self.utils.getscreenshot('/3.signing_reason.png')
+            self.utils.getscreenshot('/3.1.signing_reason.png')
 
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, self.dialog_submit))).click()
 
@@ -138,7 +140,7 @@ class Approve_Envelope:
             except:
                 print('Docusign Logo is not displaying')
 
-        time.sleep(2)
+        time.sleep(5)
 
     def click_continue_btn(self):
         WebDriverWait(self.driver, 20).until(
@@ -195,3 +197,12 @@ class Approve_Envelope:
         assert all(WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((
             By.XPATH, xpath))).is_displayed() for xpath in
                    [self.signatory_name_option, self.signatory_email_option, self.signing_reason_option])
+
+    def validate_access_code(self, accesscode):
+        WebDriverWait(self.driver, 45).until(EC.visibility_of_element_located((
+            By.XPATH, self.access_code_textbox))).send_keys(accesscode)
+        self.utils.getscreenshot('/2.Before_Validating_Access_Code.png')
+        WebDriverWait(self.driver, 45).until(EC.element_to_be_clickable((
+            By.XPATH, self.validate_access_code_button))).click()
+        time.sleep(5)
+        self.utils.getscreenshot('/3.After_Validating_Access_Code.png')

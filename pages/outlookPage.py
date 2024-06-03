@@ -8,6 +8,7 @@ import time
 class Outlook_Page:
     def __init__(self, driver):
         self.driver = driver
+        self.utils = Util_Test(driver)
         self.user_name = "//input[@type='email']"
         self.submit_userName = "//input[@type='submit']"
         self.password = "//input[@type='password']"
@@ -25,7 +26,7 @@ class Outlook_Page:
         self.download_btn = "//button[@aria-label='Download']"
         self.print_button = "//button[@name='Print']"
         self.close_report_btn = "//button[@title='Close']"
-        self.Review_Document = "//span[normalize-space()='REVIEW DOCUMENTS']"
+        self.Review_Document = "//td/a/span[contains(text(),'REVIEW DOCUMENT')]"
         self.microsoft_logo = "//img[@class='logo']"
         self.home_button = "//span[contains(text(),'Home') and contains(@class,'ms-Button')]"
 
@@ -58,10 +59,13 @@ class Outlook_Page:
         WebDriverWait(self.driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, self.others_tab))).click()
 
-    def review_Document(self):
-        review_document_button = WebDriverWait(self.driver, 20).until(
+    def review_Document(self,screenshot=False):
+        review_document_button = WebDriverWait(self.driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, self.Review_Document)))
+        self.driver.execute_script("arguments[0].scrollIntoView();", review_document_button)
         assert review_document_button.is_displayed(), 'review document button is not displayed'
+        if screenshot:
+            self.utils.getscreenshot('/3.Review_Document_Through_Outlook_notification.png')
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.Review_Document))).click()
         time.sleep(2)

@@ -37,7 +37,7 @@ class Templates_Page:
             By.XPATH, self.envelope_status))).text
         print("Template status:", temp_status)
         assert temp_status == constants.template_status_draft
-        self.utils.getscreenshot("/Template_status_draft.png")
+        self.utils.getscreenshot("/1.Template_status_draft.png")
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, self.more_menu_button))).click()
         assert all(WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((
             By.XPATH, xpath))).is_displayed() for xpath in
@@ -46,6 +46,7 @@ class Templates_Page:
             By.XPATH, self.save_as_template_option))).click()
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((
             By.XPATH, self.input_template_name))).send_keys(constants.template_name)
+        self.utils.getscreenshot("/2.Template_Creation_page.png")
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((
             By.XPATH, self.save_and_close_template))).click()
         time.sleep(5)
@@ -54,7 +55,6 @@ class Templates_Page:
         # time.sleep(60)
         try:
             assert templates_page == constants.templatesPage
-            self.utils.getscreenshot("/Templates_page.png")
         except:
             print("no error")
 

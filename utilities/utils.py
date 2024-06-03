@@ -12,6 +12,8 @@ import time
 from PIL import Image, ImageDraw, ImageFont
 import logging
 from logging.handlers import RotatingFileHandler
+import random
+import string
 
 # Initialize logger and file handler outside the method
 log_formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s ', datefmt='%Y-%m-%d %H:%M:%S')
@@ -189,3 +191,7 @@ class Util_Test:
     def write_custom_logs(logger, line):
         logger.info(line)
 
+    @staticmethod
+    def getrandomcode():
+        code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+        return code

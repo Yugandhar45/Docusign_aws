@@ -16,6 +16,7 @@ import os
 class Upload_Page:
     def __init__(self, driver):
         self.driver = driver
+        self.utils = Util_Test(driver)
         self.home_tab = "button[data-qa='header-HOME-tab-button']"
         self.upload_file_button = "button[data-qa='upload-file-button']"
         self.add_recipients = "button[data-qa='recipients-add']"
@@ -27,7 +28,8 @@ class Upload_Page:
         self.upload_file_input = "input[data-qa='upload-file-input']"
         self.wootric_close_button = "wootric-close"
         self.add_recipients_content = "button[aria-controls='add-recipients-content']"
-        self.select_document = "//button[@aria-label='Complete with DocuSign: document_name']"
+        self.select_document = "//button[@aria-label='Complete with Docusign: document_name']"
+        self.select_template = "//span[@title='document_name']"
         self.correct_resend_button = "button[data-qa='footer-simple-correct-resend-link']"
         self.manage_tab = "button[data-qa='header-MANAGE-tab-button']"
         self.approver_name1 = "(//span[@data-qa='recipient-name'])[1]"
@@ -75,6 +77,9 @@ class Upload_Page:
         self.rename_document_btn = "//button[@data-qa='rename-document']"
         self.delete_document_btn = "//button[@data-qa='delete-document']"
         self.view_document_btn = "//button[@data-qa='view-document']"
+        self.recipient_menu = "button[data-qa='recipient-menu']"
+        self.access_code = "//span[contains(text(), 'Add access code')]"
+        self.access_code_input = "//input[@data-qa='auth-accessCode-input']"
 
     def upload_envelope_documents(self, filename, wootricPopup=False, root_directory=None):
         time.sleep(2)
@@ -163,6 +168,7 @@ class Upload_Page:
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.receive_copy_type))).click()
         time.sleep(2)
+        self.utils.getscreenshot("/3.change_Recipient_Type.png")
         WebDriverWait(self.driver, 30).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, self.change_role_button))).click()
 
@@ -220,14 +226,14 @@ class Upload_Page:
         else:
             time.sleep(10)
         select_doc = self.select_document.replace("document_name", fileName)
-        print("document xpath =",select_doc)
+        print("document xpath =", select_doc)
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, select_doc))).click()
         time.sleep(2)
 
     def navigateToTemplate(self, fileName):
         time.sleep(10)
-        select_doc = self.select_document.replace("document_name", fileName)
+        select_doc = self.select_template.replace("document_name", fileName)
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, select_doc))).click()
         time.sleep(2)
@@ -240,9 +246,16 @@ class Upload_Page:
     def correctingDocumentDetails(self):
         WebDriverWait(self.driver, 60).until(EC.element_to_be_clickable((By.XPATH, self.correct_button))).click()
 
+    def scrollToRecipients(self):
+        signing_order_checkbox = WebDriverWait(self.driver, 45).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, self.signing_order_checkbox)))
+        self.driver.execute_script("arguments[0].scrollIntoView();", signing_order_checkbox)
+
     def delete_recipient(self):
         WebDriverWait(self.driver, 30).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, self.recipient_delete))).click()
+        time.sleep(2)
+        self.utils.getscreenshot("/1.Delete_Existing_Recipient.png")
         WebDriverWait(self.driver, 60).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, self.recipient_fields_delete))).click()
 
@@ -261,14 +274,24 @@ class Upload_Page:
         assert add_documents_header
 
     def replace_document(self, fileName):
+        self.utils.getscreenshot("/4.Before_Document_Replace.png")
         self.click_file_menu()
         self.verifyOptionsUnderFileMenu()
         replace_document_button = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.replace_menu_item)))
         absolute_file_path_docx = os.path.abspath(fileName)
         replace_document_button.send_keys(absolute_file_path_docx)
-        time.sleep(5)
+        time.sleep(8)
+        self.utils.getscreenshot("/5.After_Document_Replace.png")
 
     def clickPrimarySignButton(self):
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, self.primary_sign_button))).click()
+
+    def add_access_code(self, accesscode):
+        WebDriverWait(self.driver, 60).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, self.recipient_menu))).click()
+        WebDriverWait(self.driver, 30).until(
+            EC.element_to_be_clickable((By.XPATH, self.access_code))).click()
+        WebDriverWait(self.driver, 30).until(
+            EC.element_to_be_clickable((By.XPATH, self.access_code_input))).send_keys(accesscode)
