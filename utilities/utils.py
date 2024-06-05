@@ -144,7 +144,7 @@ class Util_Test:
     #     engine.say(text)
     #     engine.runAndWait()
 
-    def execute_script_with_banner(self, text, apply_fixed_position=True, isBanner=True):
+    def execute_script_with_banner(self, text, apply_fixed_position=True, isBanner=False):
         # Display Banner
         if isBanner:
             text_for_banner = f'<b>{text}</b>'
