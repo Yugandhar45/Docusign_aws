@@ -80,6 +80,7 @@ class Upload_Page:
         self.recipient_menu = "button[data-qa='recipient-menu']"
         self.access_code = "//span[contains(text(), 'Add access code')]"
         self.access_code_input = "//input[@data-qa='auth-accessCode-input']"
+        self.cancel_focus_container = "//div[@data-qa='focus-trap-container']//button[1]"
 
     def upload_envelope_documents(self, filename, wootricPopup=False, root_directory=None):
         time.sleep(2)
@@ -103,8 +104,10 @@ class Upload_Page:
             self.driver.find_element(By.CSS_SELECTOR, self.add_recipients_content)
 
     def clickSetSigningOrderCheckbox(self):
-        WebDriverWait(self.driver, 20).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, self.signing_order_checkbox))).click()
+        signing_order_checkbox = WebDriverWait(self.driver, 45).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, self.signing_order_checkbox)))
+        self.driver.execute_script("arguments[0].scrollIntoView();", signing_order_checkbox)
+        signing_order_checkbox.click()
 
     def addRecipient(self, name, email, number):
         recipient_name1 = self.recipient_name.replace('index', number)
@@ -232,6 +235,11 @@ class Upload_Page:
         time.sleep(2)
 
     def navigateToTemplate(self, fileName):
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.visibility_of_element_located((By.XPATH, self.cancel_focus_container))).click()
+        except:
+            print(" ")
         time.sleep(10)
         select_doc = self.select_template.replace("document_name", fileName)
         WebDriverWait(self.driver, 20).until(

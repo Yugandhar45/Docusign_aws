@@ -19,7 +19,7 @@ class Download_Page:
         self.download_combine_button = "button[data-qa='download-document-button']"
         self.envelope_id_link = "span[data-qa='envelope-id-link-text']"
         self.envelope_id = "p[data-qa='document-id']"
-        self.select_document = "//button[@aria-label='Complete with DocuSign: document_name']"
+        self.select_document = "//button[@aria-label='Complete with Docusign: document_name']"
         self.start_button = "button[data-qa='manage-sidebar-actions-ndse-trigger']"
         self.all_checkbox = "//span[@data-qa='download-all-label-label-text']"
         self.document_checkbox = "//span[contains(text(),'Document')]"

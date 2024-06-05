@@ -21,7 +21,7 @@ class Outlook_Page:
         self.reason_for_decline = "//div[contains(text(),'Testing')]"
         self.reason_for_void = "//p[contains(text(),'voided for the following reason')]"
         self.others_tab = "//button[@data-content='Other']"
-        self.outlook_completed_text = "//p[contains(text(), 'All signers completed Complete with DocuSign')]"
+        self.outlook_completed_text = "//p[contains(text(), 'All signers completed Complete with Docusign')]"
         self.click_summary = "//div[@title='Summary.pdf']"
         self.download_btn = "//button[@aria-label='Download']"
         self.print_button = "//button[@name='Print']"
@@ -86,7 +86,7 @@ class Outlook_Page:
             assert expected_reason in reason_text
 
     def verifyCompletedEnvelope(self):
-        sender_notification = WebDriverWait(self.driver, 20).until(
+        sender_notification = WebDriverWait(self.driver, 60).until(
             EC.visibility_of_element_located((By.XPATH, self.outlook_completed_text)))
         assert sender_notification.is_displayed(), ('All signers completed Complete with DocuSign: Envelope1.docx, '
                                                     'Envelope2.pdf is not present')
