@@ -19,7 +19,7 @@ class Home_Page:
         self.home_tab = "button[data-qa='header-HOME-tab-button']"
         self.send_documents_for_signature = "/div[@class='css-vrm39m']"
         self.start_button = "//span [contains(text(),'Start')]/parent::button"
-        self.envelope_subMenu_btn ="//button[@data-qa='envelopes-submenu-trigger']"
+        self.envelope_subMenu_btn = "//button[@data-qa='envelopes-submenu-trigger']"
         self.send_envelope_btn = "button[data-qa='manage-sidebar-actions-ndse-send_envelope']"
         self.upload_file_button = "button[data-qa='upload-file-button']"
         self.browse_button = "label[class='css-rpxvy8']"
@@ -141,4 +141,3 @@ class Home_Page:
                 By.XPATH, self.got_it_btn))).click()
         except:
             print("No Popup's are available")
-

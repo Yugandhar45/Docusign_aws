@@ -236,13 +236,15 @@ class Upload_Page:
 
     def navigateToTemplate(self, fileName):
         try:
-            WebDriverWait(self.driver, 10).until(
+            WebDriverWait(self.driver, 15).until(
                 EC.visibility_of_element_located((By.XPATH, self.cancel_focus_container))).click()
         except:
             print(" ")
         time.sleep(10)
         select_doc = self.select_template.replace("document_name", fileName)
-        WebDriverWait(self.driver, 20).until(
+        WebDriverWait(self.driver, 45).until(
+            EC.element_to_be_clickable((By.XPATH, select_doc)))
+        WebDriverWait(self.driver, 40).until(
             EC.element_to_be_clickable((By.XPATH, select_doc))).click()
         time.sleep(2)
 
@@ -268,13 +270,13 @@ class Upload_Page:
             EC.element_to_be_clickable((By.CSS_SELECTOR, self.recipient_fields_delete))).click()
 
     def validate_toast_msg(self, msg):
-        toast_msg = WebDriverWait(self.driver, 10).until(
+        toast_msg = WebDriverWait(self.driver, 20).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, self.toast_content))).text
         print("toastmsg = " + toast_msg)
         assert msg in toast_msg
 
     def verifyEnvelopeCorrectionStatus(self):
-        status = WebDriverWait(self.driver, 10).until(
+        status = WebDriverWait(self.driver, 20).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, self.correcting_label))).text
         assert status == constants.correcting_label
         add_documents_header = WebDriverWait(self.driver, 30).until(
