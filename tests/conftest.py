@@ -1,5 +1,3 @@
-import getpass
-import warnings
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.edge.service import Service as EdgeService
@@ -13,6 +11,7 @@ from testData import constants
 import pytest
 import os
 import pytz
+from py.xml import html
 
 
 def pytest_addoption(parser):
@@ -73,7 +72,7 @@ def pytest_runtest_makereport(item, call):
     pytest_html = item.config.pluginmanager.getplugin("html")
     outcome = yield
     report = outcome.get_result()
-    #extra = getattr(report, "extra", [])
+    # extra = getattr(report, "extra", [])
     if report.when == "call" or report.when == "test_setup":
         # adding url to report
         # extra.append(pytest_html.extras.url(os.path.abspath(constants.screenshots_path)))
@@ -90,7 +89,7 @@ def pytest_runtest_makereport(item, call):
                            'onclick="window.open(this.src)" align="right"/></div>' % filename
                 #extra.append(pytest_html.extras.html(html))
 
-       # report.extra = extra
+    # report.extra = extra
 
 
 # It is Hook for adding environment info to HTML reports
@@ -98,6 +97,14 @@ def pytest_configure(config):
     config._metadata['Project Name'] = 'Docusign'
     config._metadata['Run User'] = os.environ.get('TriggeringUser', 'Unknown')
     config._metadata['UTC Time'] = datetime.now(pytz.UTC)
+
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_html_results_summary(prefix, summary, postfix):
+    prefix.extend([html.div(
+        html.img(src="resources/Pharmatek_Logo.jpg", alt="Logo",
+                 style="position:absolute;top:20px;right:10px;padding:40px",
+                 height="50", width="100"))])
 
 
 # It is Hook for delete/modify environment info to HTML report

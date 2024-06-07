@@ -39,7 +39,7 @@ class Download_Page:
         print("document Status :", doc_status)
         assert constants.completed_docusign_status in doc_status
 
-    def combine_download(self,screenshot=False):
+    def combine_download(self, screenshot=False):
         download_btn = WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located((By.XPATH, self.download_button)))
         assert download_btn.is_displayed(), 'Download button is not Displayed'
@@ -66,6 +66,7 @@ class Download_Page:
         print("Envelope_id = ", envelope_id)
         return envelope_id
 
+    @staticmethod
     def delete_existing_doc(self, filepath):
 
         if os.path.exists(filepath):
@@ -73,12 +74,4 @@ class Download_Page:
             os.remove(filepath)
             print("Deleted already existing file with same name")
         else:
-            print("No file is existing with same name.")
-        # try:
-        #     os.remove(filepath)
-        # except:
-        #     print("downloads folder is empty")
-
-
-
-
+            print("No file is existing with same name")

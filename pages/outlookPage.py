@@ -1,3 +1,4 @@
+from selenium.common import TimeoutException, StaleElementReferenceException
 from utilities.utils import Util_Test
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -51,8 +52,18 @@ class Outlook_Page:
 
     def clickRecentEmail(self, recent_mail_text):
         recent_mail = self.recent_mail.replace('plaintext', recent_mail_text)
-        WebDriverWait(self.driver, 20).until(
-            EC.element_to_be_clickable((By.XPATH, recent_mail))).click()
+        try:
+            wait = WebDriverWait(self.driver, 45)
+            # Wait until the element is present in the DOM and visible
+            element = wait.until(EC.presence_of_element_located((By.XPATH, recent_mail)))
+            element = wait.until(EC.visibility_of(element))
+            element = wait.until(EC.element_to_be_clickable((By.XPATH, recent_mail)))
+            # Click the element
+            element.click()
+        except TimeoutException:
+            print("Timeout while waiting for element to be clickable.")
+        except StaleElementReferenceException:
+            print("Stale element reference: the element is no longer attached to the DOM.")
         time.sleep(2)
 
     def clickOtherFieldTab(self):

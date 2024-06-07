@@ -5,7 +5,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 from pages.loginPage import Login_Page
 from testData import constants as constants
 from utilities.utils import Util_Test
-#from utilities.generateutils import generate_random_text
 import time
 
 

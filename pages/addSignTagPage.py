@@ -1,13 +1,10 @@
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from testData import constants as constants
 from selenium.webdriver.common.by import By
 from selenium.webdriver import Keys
-from testData.constants import comment_field
-from pages.loginPage import Login_Page
 import time
 
 
@@ -116,7 +113,7 @@ class Add_Sign_Tags:
         error_message_text = WebDriverWait(self.driver, 40).until(
             EC.element_to_be_clickable((By.XPATH, self.error_message_without_sign_tags))).text
         assert error_message_text == constants.error_message_when_without_sign_tag
-        print('Error message:', error_message_text)
+        # print('Error message:', error_message_text)
         time.sleep(2)
 
     def clickCorrectToResendDocument(self):
@@ -141,11 +138,12 @@ class Add_Sign_Tags:
         document_page = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located((By.XPATH, self.document_page)))
         page_width, page_height = document_page.size.get('width'), document_page.size.get('height')
-        print("Document page width and page height =", page_width, page_height)
+        # print("Document page width and page height =", page_width, page_height)
         # Calculate the desired position based on the page dimensions
         x_offset = int(page_width * 0.7)  # 60% of the page width
         y_offset = int(page_height * -0.1)  # 20% of the page height
-        print(x_offset, y_offset)
+        # print(x_offset, y_offset)
 
         action.move_by_offset(x_offset, y_offset).pause(2).move_by_offset(-10, -10).release().perform()
         time.sleep(2)
+        

@@ -233,7 +233,7 @@ class Test_SendEnvelope_Approve:
             download.navigate_to_document_download(constants.select_2envelopes)
             Util_Test.write_custom_logs(logger, "Navigated to the Envelope")
             utils.execute_script_with_banner("Deleting the Existing document from the folder")
-            download.delete_existing_doc(constants.pdf_file_path)
+            Download_Page.delete_existing_doc(constants.pdf_file_path)
             envelope_id_text = download.getting_envelope_id()
             envelope_id_text = envelope_id_text.upper()
             envelope_id_text2 = envelope_id_text.replace("-", "")

@@ -35,7 +35,7 @@ class Templates_Page:
     def save_as_template(self):
         temp_status = WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((
             By.XPATH, self.envelope_status))).text
-        print("Template status:", temp_status)
+        # print("Template status:", temp_status)
         assert temp_status == constants.template_status_draft
         self.utils.getscreenshot("/1.Template_status_draft.png")
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, self.more_menu_button))).click()
@@ -56,7 +56,7 @@ class Templates_Page:
         try:
             assert templates_page == constants.templatesPage
         except:
-            print("no error")
+            print("Templates page is displayed")
 
     def click_use_button(self):
         WebDriverWait(self.driver, 45).until(EC.element_to_be_clickable((

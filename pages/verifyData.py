@@ -131,9 +131,9 @@ class Envelope_History:
         ActionChains(self.driver).scroll_from_origin(scroll_origin, 0, 500).perform()
         self.utils.getscreenshot("/1.EnvelopeHistory.png")
         userLabel = self.driver.find_element(By.XPATH, self.user_label).text
-        print(userLabel)
+        # print(userLabel)
         text_userName = self.driver.find_element(By.XPATH, self.user_name_text).text
-        print(text_userName)
+        # print(text_userName)
         assert constants.sender_name in text_userName
         self.driver.find_element(By.XPATH, self.close_button).click()
         self.driver.switch_to.window(parentWindow)
@@ -151,7 +151,7 @@ class Envelope_History:
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, self.run_report))).click()
         report_result = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.report_result))).text
-        print(report_result)
+        # print(report_result)
         try:
             os.remove(constants.csv_envelope_report)
         except:
@@ -209,7 +209,7 @@ class Envelope_History:
         self.utils.getscreenshot("/2.Added_user_details.png")
         username_in_record = WebDriverWait(self.driver, 20).until(
             EC.visibility_of_element_located((By.XPATH, self.user_record))).text
-        print("username_in_record:", username_in_record)
+        # print("username_in_record:", username_in_record)
         assert username_in_record == user_name
 
     def click_email_preferences(self):
@@ -232,7 +232,7 @@ class Envelope_History:
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, self.save_button))).click()
         email_pref = WebDriverWait(self.driver, 60).until(EC.element_to_be_clickable((
             By.XPATH, self.email_preferences_header))).text
-        print(email_pref)
+        # print(email_pref)
         WebDriverWait(self.driver, 60).until(EC.element_to_be_clickable((
             By.XPATH, self.cancel_button))).is_displayed()
         time.sleep(2)

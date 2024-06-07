@@ -136,7 +136,7 @@ class Test_ReceiverReceivesEnvelope:
             utils.execute_script_with_banner("Selecting the mail from sender")
             outlook.clickRecentEmail(constants.recent_mail_completed_envelope)
             Util_Test.write_custom_logs(logger, "Navigated to the recent mail and Found and opened the desired mail.")
-            download.delete_existing_doc(constants.downloaded_summary_file)
+            Download_Page.delete_existing_doc(constants.downloaded_summary_file)
             utils.execute_script_with_banner("Downloading the summary report and verifying the envelope id")
             outlook.download_Envelope_summary_pdf()
             Util_Test.write_custom_logs(logger, "Downloaded the envelop summary document.")

@@ -210,12 +210,12 @@ class Upload_Page:
         delete_button_verify = self.driver.find_element(By.XPATH, self.delete_document_btn)
         delete_button_disabled = delete_button_verify.get_attribute("aria-disabled")
         assert delete_button_disabled
-        print("Delete button is disabled")
+        # print("Delete button is disabled")
         # Util_Test.getscreenshot("/Delete_button_disabled.png")
         replace_button_verify = self.driver.find_element(By.XPATH, self.replace_menu_item)
         replace_button_disabled = replace_button_verify.get_attribute("aria-disabled")
         assert replace_button_disabled
-        print("Replace button is disabled")
+        # print("Replace button is disabled")
 
     def navigateToEnvelope(self, fileName, sender=False):
         home_tab = WebDriverWait(self.driver, 60).until(
@@ -229,7 +229,7 @@ class Upload_Page:
         else:
             time.sleep(10)
         select_doc = self.select_document.replace("document_name", fileName)
-        print("document xpath =", select_doc)
+        # print("document xpath =", select_doc)
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, select_doc))).click()
         time.sleep(2)
@@ -272,7 +272,7 @@ class Upload_Page:
     def validate_toast_msg(self, msg):
         toast_msg = WebDriverWait(self.driver, 20).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, self.toast_content))).text
-        print("toastmsg = " + toast_msg)
+        # print("toastmsg = " + toast_msg)
         assert msg in toast_msg
 
     def verifyEnvelopeCorrectionStatus(self):
