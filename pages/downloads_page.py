@@ -67,7 +67,7 @@ class Download_Page:
         return envelope_id
 
     @staticmethod
-    def delete_existing_doc(self, filepath):
+    def delete_existing_doc(filepath):
 
         if os.path.exists(filepath):
             # Delete the File in the file path
