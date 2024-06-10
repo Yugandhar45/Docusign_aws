@@ -1,4 +1,3 @@
-
 import time
 from pages.loginPage import Login_Page
 from pages.homePage import Home_Page
@@ -12,10 +11,10 @@ import pytest
 
 logger = Util_Test.initialize_logger('DeclineEnvelope')
 
-  
+
 @pytest.mark.usefixtures("test_setup")
 class Test_DeclineEnvelope:
-
+    @pytest.mark.dependency()
     def test_declineEnvelope(self, request):
         driver = request.cls.driver
         driver.get(constants.baseUrl)
@@ -95,6 +94,7 @@ class Test_DeclineEnvelope:
             Util_Test.write_custom_logs(logger, f"Test  case failed")
             pytest.fail()
 
+    @pytest.mark.dependency(depends=["Test_DeclineEnvelope::test_declineEnvelope"])
     def test_verify_decline_notification(self, request):
         driver = request.cls.driver
         driver.get(constants.outlook_url)

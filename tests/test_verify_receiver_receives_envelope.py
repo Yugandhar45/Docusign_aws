@@ -17,6 +17,7 @@ logger = Util_Test.initialize_logger('Verify receiver receives envelop')
 class Test_ReceiverReceivesEnvelope:
     envelope_id = ''
 
+    @pytest.mark.dependency()
     def testReceiverReceivesEnvelope(self, request):
         driver = request.cls.driver
         driver.get(constants.baseUrl)
@@ -120,6 +121,7 @@ class Test_ReceiverReceivesEnvelope:
             Util_Test.write_custom_logs(logger, f"Test  case failed")
             pytest.fail()
 
+    @pytest.mark.dependency(depends=["Test_ReceiverReceivesEnvelope::testReceiverReceivesEnvelope"])
     def test_verify_receiver_receives_copy(self, request):
         driver = request.cls.driver
         outlook = Outlook_Page(driver)

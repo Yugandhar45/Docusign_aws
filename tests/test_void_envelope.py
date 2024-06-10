@@ -14,7 +14,7 @@ logger = Util_Test.initialize_logger('void envelop')
 
 @pytest.mark.usefixtures("test_setup")
 class Test_Voiding_Envelope:
-
+    @pytest.mark.dependency()
     def test_void_envelope(self, request):
         driver = request.cls.driver
         driver.get(constants.baseUrl)
@@ -91,6 +91,7 @@ class Test_Voiding_Envelope:
             Util_Test.write_custom_logs(logger, f" void_envelope Test case failed")
             pytest.fail()
 
+    @pytest.mark.dependency(depends=["Test_Voiding_Envelope::test_void_envelope"])
     def test_verify_void_notification(self, request):
         driver = request.cls.driver
         outlook = Outlook_Page(driver)

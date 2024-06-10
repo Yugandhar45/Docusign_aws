@@ -15,6 +15,7 @@ logger = Util_Test.initialize_logger('Send Envelop and Approve')
 
 @pytest.mark.usefixtures("test_setup")
 class Test_SendEnvelope_Approve:
+    @pytest.mark.dependency()
     def test_send_envelope_approve(self, request):
         driver = request.cls.driver
         driver.get(constants.baseUrl)
@@ -191,6 +192,7 @@ class Test_SendEnvelope_Approve:
             Util_Test.write_custom_logs(logger, f"Test  case failed")
             pytest.fail()
 
+    @pytest.mark.dependancy(depends=["Test_SendEnvelope_Approve::test_send_envelope_approve"])
     def test_envelope_completion_notification(self, request):
         driver = request.cls.driver
         utils = Util_Test(driver)
@@ -218,6 +220,7 @@ class Test_SendEnvelope_Approve:
             pytest.fail()
 
     # Combine and download all docs
+    @pytest.mark.dependancy(depends=["Test_SendEnvelope_Approve::test_send_envelope_approve"])
     def test_download_allDocuments(self, request):
         driver = request.cls.driver
         driver.get(constants.baseUrl)
