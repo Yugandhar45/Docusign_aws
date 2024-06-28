@@ -14,6 +14,7 @@ logger = Util_Test.initialize_logger('void envelop')
 
 @pytest.mark.usefixtures("test_setup")
 class Test_Voiding_Envelope:
+    void_reason = constants.void_reason
     @pytest.mark.dependency()
     def test_void_envelope(self, request):
         driver = request.cls.driver
@@ -74,7 +75,8 @@ class Test_Voiding_Envelope:
             utils.execute_script_with_banner("Entering the reason for voiding the document")
             approve.validateOptionsUnderMoreButton()
             Util_Test.write_custom_logs(logger, "Validated all the button under more option")
-            approve.voiding_envelope()
+            Test_Voiding_Envelope.void_reason = constants.void_reason+'_'+Util_Test.get_random_code()
+            approve.voiding_envelope(Test_Voiding_Envelope.void_reason)
             Util_Test.write_custom_logs(logger, "Clicked on the void option and given a reason for void")
             utils.execute_script_with_banner("Clicking on the manage tab and selecting the document")
             upload.navigateToEnvelope(constants.envelope_void_test, True)
@@ -110,7 +112,7 @@ class Test_Voiding_Envelope:
             outlook.clickRecentEmail(constants.recent_mail_void_envelope)
             Util_Test.write_custom_logs(logger, "Selected the email related to void")
             utils.execute_script_with_banner("Verifying the voided text")
-            outlook.validateVoidReason(constants.void_reason)
+            outlook.validate_void_reason(Test_Voiding_Envelope.void_reason)
             Util_Test.write_custom_logs(logger, "Validated the void envelop reason.")
             utils.getscreenshot('/2.Envelope_Voided_notification_to_signer.png')
             Util_Test.write_custom_logs(logger, f"verify_void_notification Execution - Completed")

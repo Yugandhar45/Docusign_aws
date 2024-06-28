@@ -30,7 +30,7 @@ class Approve_Envelope:
         self.help_support_button = ("//div[contains(@class,'menu below right visible')]//span[contains(text(),'Help & "
                                     "Support')]")
         self.about_docusign_button = ("//div[contains(@class,'menu below right visible')]//span[contains(text(),"
-                                      "'About DocuSign')]")
+                                      "'About Docusign')]")
         self.view_history_button = ("//div[contains(@class,'menu below right visible')]//button[contains(text(),"
                                     "'View History')]")
         self.decline_continue_button = "//button[@data-qa='show-decline-to-sign']"
@@ -79,7 +79,7 @@ class Approve_Envelope:
         sign_field = self.sign_field.replace('index', index_value)
         WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, sign_field))).click()
 
-    def e_sign_reason(self, verifyOptions=False,screenshot=False):
+    def e_sign_reason(self, verifyOptions=False, screenshot=False):
         drop_down = self.driver.find_element(By.ID, self.signing_reason)
         select_method = Select(drop_down)
         if verifyOptions:
@@ -102,7 +102,7 @@ class Approve_Envelope:
                 self.driver.switch_to.window(popup)
         login = Login_Page(self.driver)
         if screenshot:
-            login.login_page(email, password,True)
+            login.login_page(email, password, True)
             time.sleep(4)
         else:
             login.login_page(email, password)
@@ -145,7 +145,7 @@ class Approve_Envelope:
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, self.cfr_continue_button))).click()
 
-    def decline_envelope(self):
+    def decline_envelope(self, decline_reason):
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, self.other_actions))).click()
         assert all(WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((
             By.XPATH, xpath))).is_displayed() for xpath in
@@ -156,7 +156,7 @@ class Approve_Envelope:
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((
             By.XPATH, self.decline_continue_button))).click()
         WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((
-            By.XPATH, self.decline_reason_text_box))).send_keys(constants.decline_reason)
+            By.XPATH, self.decline_reason_text_box))).send_keys(decline_reason)
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((
             By.XPATH, self.dialog_decline_to_sign))).click()
 
@@ -176,11 +176,11 @@ class Approve_Envelope:
                     self.form_data_option, self.transfer_ownership_option, self.export_as_csv_option,
                     self.delete_option])
 
-    def voiding_envelope(self):
+    def voiding_envelope(self, void_reason):
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.void_option))).click()
         WebDriverWait(self.driver, 20).until(
-            EC.element_to_be_clickable((By.XPATH, self.void_reason_box))).send_keys(constants.void_reason)
+            EC.element_to_be_clickable((By.XPATH, self.void_reason_box))).send_keys(void_reason)
         utils = Util_Test(self.driver)
         utils.getscreenshot('/1.Reason_for_voiding.png')
         WebDriverWait(self.driver, 20).until(

@@ -37,7 +37,7 @@ class Test_Verify_AccessCode:
             upload.addRecipient(constants.signer1_name, constants.signer1_email,constants.index_one)
             Util_Test.write_custom_logs(logger, "Added the recipient 1 details.")
             # added access code
-            generated_access_code = Util_Test.getrandomcode()
+            generated_access_code = Util_Test.get_random_code()
             upload.add_access_code(generated_access_code)
             Util_Test.write_custom_logs(logger, "Generated and added the access code")
             utils.getscreenshot('/1.Added_Access_Code.png')

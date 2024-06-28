@@ -192,6 +192,6 @@ class Util_Test:
         logger.info(line)
 
     @staticmethod
-    def getrandomcode():
+    def get_random_code():
         code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
         return code

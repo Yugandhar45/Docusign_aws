@@ -14,6 +14,8 @@ logger = Util_Test.initialize_logger('DeclineEnvelope')
 
 @pytest.mark.usefixtures("test_setup")
 class Test_DeclineEnvelope:
+    decline_reason = constants.decline_reason
+
     @pytest.mark.dependency()
     def test_declineEnvelope(self, request):
         driver = request.cls.driver
@@ -84,7 +86,8 @@ class Test_DeclineEnvelope:
             login.login_page(constants.signer1_email, constants.signer1_password)
             Util_Test.write_custom_logs(logger, "Completed the authentication process")
             utils.execute_script_with_banner("Signer decline the Envelop with Reason")
-            signing.decline_envelope()
+            Test_DeclineEnvelope.decline_reason = constants.decline_reason + '_' + Util_Test.get_random_code()
+            signing.decline_envelope(Test_DeclineEnvelope.decline_reason)
             Util_Test.write_custom_logs(logger, "Declined the Envelope with reason")
             signing.validate_doc_status(constants.decline_status)
             Util_Test.write_custom_logs(logger, "validated envelope status as declined")
@@ -107,7 +110,7 @@ class Test_DeclineEnvelope:
             outlook.clickRecentEmail(constants.recent_mail_decline_envelop)
             Util_Test.write_custom_logs(logger, "selected the declined email")
             utils.execute_script_with_banner("Verifying the Declined notification")
-            outlook.validateDeclineReason(constants.decline_reason)
+            outlook.validate_decline_reason(Test_DeclineEnvelope.decline_reason)
             Util_Test.write_custom_logs(logger, "validated the envelope declined notification")
             utils.getscreenshot('/4.Envelope_declined_notification_to_sender.png')
             Util_Test.write_custom_logs(logger, "Decline Envelope Script execution:COMPLETED")

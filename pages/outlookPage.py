@@ -81,13 +81,13 @@ class Outlook_Page:
             EC.element_to_be_clickable((By.XPATH, self.Review_Document))).click()
         time.sleep(2)
 
-    def validateDeclineReason(self, expected_reason):
+    def validate_decline_reason(self, expected_reason):
         reason = self.reason_for_decline.replace('Testing', expected_reason)
-        reason_text = WebDriverWait(self.driver, 20).until(
+        decline_reason = WebDriverWait(self.driver, 20).until(
             EC.visibility_of_element_located((By.XPATH, reason))).is_displayed()
-        assert reason_text
+        assert decline_reason
 
-    def validateVoidReason(self, expected_reason):
+    def validate_void_reason(self, expected_reason):
         void_reason = WebDriverWait(self.driver, 20).until(
             EC.visibility_of_element_located((By.XPATH, self.reason_for_void))).is_displayed()
         if void_reason:
@@ -100,7 +100,7 @@ class Outlook_Page:
         sender_notification = WebDriverWait(self.driver, 60).until(
             EC.visibility_of_element_located((By.XPATH, self.outlook_completed_text)))
         assert sender_notification.is_displayed(), ('All signers completed Complete with DocuSign: Envelope1.docx, '
-                                                    'Envelope2.pdf is not present')
+                                                    'Envelope2.pdf text is not present')
 
     def download_Envelope_summary_pdf(self):
         WebDriverWait(self.driver, 60).until(
