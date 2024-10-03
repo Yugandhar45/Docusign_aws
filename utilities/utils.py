@@ -2,6 +2,8 @@ import base64
 from datetime import datetime
 from io import BytesIO
 import pypdf
+from docx import Document
+from docx.shared import Inches, RGBColor
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -22,6 +24,7 @@ log_formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s ', date
 class Util_Test:
     folder_path = constants.screenshots_path
     logs_folder_path = constants.custom_logs_path
+    test_name = constants.test_name
 
     def __init__(self, driver):
         self.driver = driver
@@ -55,7 +58,7 @@ class Util_Test:
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((
             By.CSS_SELECTOR, self.logoff_button))).click()
         loginpage = WebDriverWait(self.driver, 45).until(EC.visibility_of_element_located((
-            By.XPATH, "//span [contains(text(),'Log in to DocuSign')]"))).is_displayed()
+            By.XPATH, "//span [contains(text(),'Log in to Docusign')]"))).is_displayed()
         assert loginpage
 
     @staticmethod
@@ -91,6 +94,7 @@ class Util_Test:
 
     def create_directory(self, test_name, root_directory=None):
         timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        Util_Test.test_name = test_name
         folder_name = test_name + '_' + timestamp
         # global folder_path
         if root_directory is None:
@@ -121,9 +125,10 @@ class Util_Test:
         image_width, image_height = image.size
         text_position = (text_padding, image_height - text_height - text_padding)
         draw.text(text_position, current_datetime, fill="black", font=font)
-        filepath = os.path.abspath(Util_Test.folder_path) + fileName
+        filepath = os.path.abspath(Util_Test.folder_path) + '/' + fileName
         # print("file path =", filepath)
         image.save(filepath)
+        return filepath
 
     @staticmethod
     def password_encrypt(*args):
@@ -195,3 +200,57 @@ class Util_Test:
     def get_random_code():
         code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
         return code
+
+    @staticmethod
+    def add_test_name_to_doc(testcasename):
+        doc_path = ("C:\\Users\\PrathyushaDaddolu\\PharmaTek_Solutions\\DocuSign-Automation\\tests"
+                    "\\DocuSignTestSummaryReport.docx")
+        doc = Document(doc_path)
+        doc.add_heading(testcasename, level=2)
+        doc.save(doc_path)
+    @staticmethod
+    def add_failed_message_doc(testname):
+        doc_path = ("C:\\Users\\PrathyushaDaddolu\\PharmaTek_Solutions\\DocuSign-Automation\\tests"
+                    "\\DocuSignTestSummaryReport.docx")
+        doc = Document(doc_path)
+        image_folder = Util_Test.folder_path
+        for image_name in sorted(os.listdir(image_folder)):
+            if image_name.startswith('Screenshot_while_failed.png'):
+                # Full path to the image
+                image_path = os.path.join(image_folder, image_name)
+                image_name = image_name.split(".")
+                # Add a paragraph with the image name (optional)
+                doc.add_paragraph(image_name[1])
+                # Append the image to the document
+                doc.add_picture(image_path, width=Inches(7.0), height=Inches(3.8))
+                break
+        paragraph = doc.add_paragraph()
+        run1 = paragraph.add_run(testname+'----'+' Script Failed')
+        run1.font.color.rgb = RGBColor(255, 0, 0)  # Red color
+        doc.save(doc_path)
+    @staticmethod
+    def add_screenshots_to_doc():
+
+        doc_path = ("C:\\Users\\PrathyushaDaddolu\\PharmaTek_Solutions\\DocuSign-Automation\\tests"
+                    "\\DocuSignTestSummaryReport.docx")
+        doc = Document(doc_path)
+        if doc:
+            print("Document loaded successfully.")
+        image_folder = Util_Test.folder_path
+        for image_name in sorted(os.listdir(image_folder)):
+            if image_name.endswith('.png'):
+                # Full path to the image
+                image_path = os.path.join(image_folder, image_name)
+                # Add a paragraph with the image name (optional)
+                image_name = image_name.split(".")
+                doc.add_paragraph(image_name[1])
+                # Append the image to the document
+                doc.add_picture(image_path, width=Inches(7.0), height=Inches(3.9))  # Adjust the width as needed
+
+                # Add a paragraph break for spacing between images (optional)
+                # doc.add_paragraph('')
+
+
+
+        # Save the document with the newly appended images
+        doc.save(doc_path)

@@ -44,8 +44,12 @@ class Test_Add_User:
             utils.execute_script_with_banner("Logout as a User after making the changes")
             utils.logout()
             Util_Test.write_custom_logs(logger, "Logged out from the sender.")
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
 
         except:
             # Log the exception and mark the test as failed
             Util_Test.write_custom_logs(logger, f"Test  case failed")
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
             pytest.fail()

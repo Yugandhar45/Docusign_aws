@@ -9,7 +9,7 @@ from utilities.utils import Util_Test
 
 @pytest.mark.usefixtures("test_setup")
 class Test_Send_Env_NoSign_Tags:
-    def test_send_env_NoSign_tags(self, request):
+    def test_send_envelope_With_NoSign_tags(self, request):
         driver = request.cls.driver
         driver.get(constants.baseUrl)
         login = Login_Page(driver)
@@ -51,7 +51,11 @@ class Test_Send_Env_NoSign_Tags:
             sign.send_envelop_without_sign_tags()
             Util_Test.write_custom_logs(logger, "Dragged and dropped the signature tag for recipient 1")
             utils.getscreenshot('/1.Error_msg_WithOut_SignTags.png')
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
         except:
             # Log the exception and mark the test as failed
             Util_Test.write_custom_logs(logger, f"Test  case failed")
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
             pytest.fail()

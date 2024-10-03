@@ -192,7 +192,7 @@ class Test_SendEnvelope_Approve:
             Util_Test.write_custom_logs(logger, f"Test  case failed")
             pytest.fail()
 
-    @pytest.mark.dependancy(depends=["Test_SendEnvelope_Approve::test_send_envelope_approve"])
+    @pytest.mark.dependency(depends=["Test_SendEnvelope_Approve::test_send_envelope_approve"])
     def test_envelope_completion_notification(self, request):
         driver = request.cls.driver
         utils = Util_Test(driver)
@@ -220,7 +220,7 @@ class Test_SendEnvelope_Approve:
             pytest.fail()
 
     # Combine and download all docs
-    @pytest.mark.dependancy(depends=["Test_SendEnvelope_Approve::test_send_envelope_approve"])
+    @pytest.mark.dependency(depends=["Test_SendEnvelope_Approve::test_send_envelope_approve"])
     def test_download_allDocuments(self, request):
         driver = request.cls.driver
         driver.get(constants.baseUrl)
@@ -256,3 +256,7 @@ class Test_SendEnvelope_Approve:
             # Log the exception and mark the test as failed
             Util_Test.write_custom_logs(logger, f"Test  case failed")
             pytest.fail()
+
+    def test_Envelope_Complete_WorkFlow(self, request):
+        Util_Test.add_test_name_to_doc(request.node.name)
+        Util_Test.add_screenshots_to_doc()

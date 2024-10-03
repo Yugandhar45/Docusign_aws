@@ -11,7 +11,7 @@ import pytest
 
 @pytest.mark.usefixtures("test_setup")
 class Test_Verify_SignedDoc_NoDeletionOrReplacement:
-    def test_SignedDoc_NoDeletionOrReplacement(self, request):
+    def test_NoDeletionOrReplacement_on_SignedDoc(self, request):
         driver = request.cls.driver
         driver.get(constants.baseUrl)
         login = Login_Page(driver)
@@ -121,9 +121,13 @@ class Test_Verify_SignedDoc_NoDeletionOrReplacement:
             upload.restrict_document_del_and_replace()
             Util_Test.write_custom_logs(logger, "Validated the options i.e Replace, Delete and lock buttons are disable.")
             utils.getscreenshot("/2.Delete_and_Replace_button_disabled.png")
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
         except:
             # Log the exception and mark the test as failed
             Util_Test.write_custom_logs(logger, f"Test  case failed")
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
             pytest.fail()
 
 

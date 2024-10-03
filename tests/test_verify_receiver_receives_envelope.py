@@ -150,3 +150,7 @@ class Test_ReceiverReceivesEnvelope:
             # Log the exception and mark the test as failed
             Util_Test.write_custom_logs(logger, f"Test  case failed")
             pytest.fail()
+
+    def test_ReceiverReceivesEnvelopeCopy(self, request):
+        Util_Test.add_test_name_to_doc(request.node.name)
+        Util_Test.add_screenshots_to_doc()

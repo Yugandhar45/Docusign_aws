@@ -120,3 +120,6 @@ class Test_Voiding_Envelope:
             Util_Test.write_custom_logs(logger, f"verify_void_notification Test case failed")
             pytest.fail()
 
+    def test_void_Envelope_and_Verify_notification(self, request):
+        Util_Test.add_test_name_to_doc(request.node.name)
+        Util_Test.add_screenshots_to_doc()

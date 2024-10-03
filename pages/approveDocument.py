@@ -95,11 +95,10 @@ class Approve_Envelope:
 
     def switchToNewTab(self, email, password, screenshot=False):
         parent_window = self.driver.current_window_handle
-        main_window = self.driver.window_handles
-        for handle in self.driver.window_handles:
-            if handle != main_window:
-                popup = handle
-                self.driver.switch_to.window(popup)
+        windows = self.driver.window_handles
+        for window in windows:
+            if window != parent_window:
+                self.driver.switch_to.window(window)
         login = Login_Page(self.driver)
         if screenshot:
             login.login_page(email, password, True)
@@ -144,6 +143,7 @@ class Approve_Envelope:
     def click_continue_btn(self):
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, self.cfr_continue_button))).click()
+        time.sleep(2)
 
     def decline_envelope(self, decline_reason):
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, self.other_actions))).click()

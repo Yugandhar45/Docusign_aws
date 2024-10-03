@@ -1,4 +1,8 @@
+import base64
+
+from docx import Document
 from selenium import webdriver
+from selenium.common import NoSuchWindowException
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.edge.service import Service as EdgeService
 from selenium.webdriver.firefox.service import Service as FirefoxService
@@ -15,7 +19,7 @@ from py.xml import html
 
 
 def pytest_addoption(parser):
-    parser.addoption("--browser", action="store", default="chrome")
+    parser.addoption("--browser", action="store", default="edge")
 
 
 @pytest.fixture(scope='class')
@@ -46,11 +50,12 @@ def test_setup(request):
     elif browser == "edge":
         download_path = os.path.abspath(constants.download_path)
         edge_options = webdriver.EdgeOptions()
+        edge_options.add_argument("--inprivate")
         edge_options.add_experimental_option('prefs', {
             'download.default_directory': download_path,
             'download.prompt_for_download': False,
             'download.directory_upgrade': True,
-            ' safebrowsing.enabled': True
+            'safebrowsing.enabled': True
         })
         driver = webdriver.Edge(service=EdgeService(EdgeChromiumDriverManager().install()), options=edge_options)
     driver.implicitly_wait(2)
@@ -67,44 +72,58 @@ def pytest_html_report_title(report):
 
 
 @pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item, call):
-    html = None
+def pytest_runtest_makereport(item):
     pytest_html = item.config.pluginmanager.getplugin("html")
     outcome = yield
     report = outcome.get_result()
-    # extra = getattr(report, "extra", [])
-    if report.when == "call" or report.when == "test_setup":
-        # adding url to report
-        # extra.append(pytest_html.extras.url(os.path.abspath(constants.screenshots_path)))
-        xfail = hasattr(report, "wasxfail")
+    extra = getattr(report, 'extra', [])
+    if report.when == 'call':
+        xfail = hasattr(report, 'wasxfail')
         if (report.skipped and xfail) or (report.failed and not xfail):
-            driver = item.funcargs.get('driver', None)
-            if driver is not None:
-                utils = Util_Test(driver)
-                file_name = "/failed.png"
-                utils.getscreenshot(file_name)
-                filename = os.path.abspath(Util_Test.folder_path) + file_name
-                if file_name:
-                    html = '<div><img src="%s" alt="screenshot" style="width:304px;height:228px;" ' \
-                           'onclick="window.open(this.src)" align="right"/></div>' % filename
-                #extra.append(pytest_html.extras.html(html))
+            driver = getattr(item.cls, 'driver', None)
+            if driver:
+                util_test = Util_Test(driver)
+                screenshots_dir = 'screenshots'
+                if not os.path.exists(screenshots_dir):
+                    os.makedirs(screenshots_dir)
+                try:
+                    screenshot_path = util_test.getscreenshot("Screenshot_while_failed.png")
+                    Util_Test.add_failed_message_doc(Util_Test.test_name)
+                    if os.path.exists(screenshot_path):
+                        with open(screenshot_path, "rb") as image_file:
+                            encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+                            extra_html = (
+                                f'<div style="float: right; margin-left: 20px;">'
+                                f'<img src="data:image/png;base64,{encoded_string}" alt="screenshot" '
+                                f'style="width:200px; height:150px;" onclick="window.open(this.src)" align="right"/></div>'
+                            )
+                            extra.append(pytest_html.extras.html(extra_html))
+                except NoSuchWindowException:
+                    extra_html = (
+                        '<div style="float: right; margin-left: 20px;">'
+                        '<p>Screenshot could not be captured as the window was closed.</p>'
+                        '</div>'
+                    )
+                    extra.append(pytest_html.extras.html(extra_html))
+    report.extra = extra
 
-    # report.extra = extra
+
+# It is the Hook to add the logo in the screenshot
+@pytest.hookimpl(tryfirst=True)
+def pytest_html_results_summary(prefix):
+    logo_path = os.path.join(os.path.dirname(__file__), 'reports', constants.logo_path)
+    if os.path.exists(logo_path):
+        prefix.extend([html.div(
+            html.img(src=logo_path, alt="Logo", style="position:absolute;top:20px;right:10px;padding:40px", height="50",
+                     width="100")
+        )])
 
 
-# It is Hook for adding environment info to HTML reports
+# It is the hook for adding environment info to html reports
 def pytest_configure(config):
-    config._metadata['Project Name'] = 'Docusign'
+    config._metadata['Project Name'] = 'DocuSign'
     config._metadata['Run User'] = os.environ.get('TriggeringUser', 'Unknown')
     config._metadata['UTC Time'] = datetime.now(pytz.UTC)
-
-
-@pytest.hookimpl(tryfirst=True)
-def pytest_html_results_summary(prefix, summary, postfix):
-    prefix.extend([html.div(
-        html.img(src="resources/Pharmatek_Logo.jpg", alt="Logo",
-                 style="position:absolute;top:20px;right:10px;padding:40px",
-                 height="50", width="100"))])
 
 
 # It is Hook for delete/modify environment info to HTML report
@@ -112,3 +131,60 @@ def pytest_metadata(metadata):
     metadata.pop("Packages", None)
     metadata.pop("Plugins", None)
     metadata.pop("Python", None)
+
+
+def pytest_terminal_summary(terminalreporter, exitstatus, config):
+    # Getting the test results
+    passed_tests = terminalreporter.stats.get('passed', [])
+    failed_tests = terminalreporter.stats.get('failed', [])
+    skipped_tests = terminalreporter.stats.get('skipped', [])
+
+    passed = len(passed_tests)
+    failed = len(failed_tests)
+    skipped = len(skipped_tests)
+
+    # Creating a Word document
+    doc_path = ("C:\\Users\\PrathyushaDaddolu\\PharmaTek_Solutions\\DocuSign-Automation\\tests"
+                "\\DocuSignTestSummaryReport.docx")
+    doc = Document(doc_path)
+    doc.add_heading('Pytest Test Report', 0)
+
+    # Writing passed tests
+    doc.add_heading('Passed Tests', level=1)
+    if passed_tests:
+        for test in passed_tests:
+            doc.add_paragraph(test.nodeid)
+    else:
+        doc.add_paragraph("No tests passed.")
+
+    # Writing failed tests
+    if failed_tests:
+        doc.add_heading('Failed Tests', level=1)
+        for test in failed_tests:
+            i = 1
+            testname = test.nodeid.split('::')
+            doc.add_paragraph("Test Script - {} : {} ".format(i, testname[2]))
+            i += 1
+    # else:
+    #     doc.add_paragraph("No tests failed.")
+
+    # Writing skipped tests
+    if skipped_tests:
+        doc.add_heading('Skipped Tests', level=1)
+        for test in skipped_tests:
+            testname = test.nodeid.split('::')
+            doc.add_paragraph(testname[2])
+    # else:
+    #     doc.add_paragraph("No tests were skipped.")
+
+    # Summary of results
+    doc.add_heading('Summary', level=1)
+    doc.add_paragraph(f"Total Passed: {passed}")
+    doc.add_paragraph(f"Total Failed: {failed}")
+    doc.add_paragraph(f"Total Skipped: {skipped}")
+
+    # Saving the Word document
+    doc.save(doc_path)
+
+    # Printing the summary in the console
+    print(f"\nPassed: {passed}, Failed: {failed}, Skipped: {skipped}")

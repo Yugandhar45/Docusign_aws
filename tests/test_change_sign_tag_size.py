@@ -1,3 +1,5 @@
+import pdb
+
 from pages.loginPage import Login_Page
 from pages.homePage import Home_Page
 from testData import constants as constants
@@ -10,7 +12,7 @@ import pytest
 @pytest.mark.usefixtures("test_setup")
 class Test_Change_Sign_Tag_Size:
 
-    def test_change_sign_size(self, request):
+    def test_change_sign_tag_size(self, request):
         driver = request.cls.driver
         driver.get(constants.baseUrl)
         login = Login_Page(driver)
@@ -51,6 +53,7 @@ class Test_Change_Sign_Tag_Size:
             add_sign.addSignatureTag(350)
             Util_Test.write_custom_logs(logger, "Dragged and dropped the signature tag for recipient 1")
             utils.getscreenshot('/1.Before_changing_Signature_Tag_size_100%_resolution.png')
+            #Util_Test.add_screenshots_to_doc()
             add_sign.validateOptionsUnderSignature()
             Util_Test.write_custom_logs(logger, "Validated the options under the signature section")
             add_sign.change_sign_tag_size()
@@ -62,8 +65,12 @@ class Test_Change_Sign_Tag_Size:
             Util_Test.write_custom_logs(logger, "Dragged and dropped the signature tag for recipient 2 ")
             add_sign.change_sign_tag_size()
             Util_Test.write_custom_logs(logger, "Increased the signature tag size for recipient 2.")
-            Util_Test.write_custom_logs(logger,'Change signature Tag size script execution - completed')
+            Util_Test.write_custom_logs(logger, 'Change signature Tag size script execution - completed')
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
         except:
             # Log the exception and mark the test as failed
             Util_Test.write_custom_logs(logger, f"Test  case failed")
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
             pytest.fail()

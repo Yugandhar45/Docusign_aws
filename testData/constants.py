@@ -79,7 +79,8 @@ screenshots_path = "screenshots/"
 custom_logs_path = "executionlogs/"
 htmlreport_path = "reports/report.html"
 pdf_report_path = "reports/report.pdf"
-logo_path = "../tests/resources/Pharmatek_Logo.jpg"
+logo_path = "Pharmatek_Logo.jpg"
+test_name = "sample"
 report_title = "Docusign Automation Test report"
 # messages
 error_message_when_without_sign_tag = "Signers that are required to meet 21 CFR part 11 compliance must " \
