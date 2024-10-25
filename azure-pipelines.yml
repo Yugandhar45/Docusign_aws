@@ -1,5 +1,5 @@
 trigger:
-- test_demo
+- Release_v1.0_Docusign
 
 variables:
   TriggeringUser: $[ coalesce(variables['Build.RequestedFor'], 'Unknown') ]
