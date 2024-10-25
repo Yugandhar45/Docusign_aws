@@ -92,7 +92,6 @@ class Upload_Page:
             root_directory = os.getcwd()
             relative_path = Path(filename)
             document_path = root_directory / relative_path
-            #print("Document path =", document_path)
             file_path = Path(document_path)
             document_path = str(file_path)
             browse_button.send_keys(document_path)

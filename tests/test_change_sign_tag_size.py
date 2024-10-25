@@ -1,5 +1,3 @@
-import pdb
-
 from pages.loginPage import Login_Page
 from pages.homePage import Home_Page
 from testData import constants as constants

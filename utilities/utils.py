@@ -1,6 +1,8 @@
 import base64
 from datetime import datetime
 from io import BytesIO
+from pathlib import Path
+
 import pypdf
 from docx import Document
 from docx.shared import Inches, RGBColor
@@ -117,7 +119,8 @@ class Util_Test:
         image = Image.open(BytesIO(screenshot))
         current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         draw = ImageDraw.Draw(image)
-        font = ImageFont.load_default()
+        font_size = 16
+        font = ImageFont.truetype("arial.ttf", font_size)
         text_padding = 5
         bbox = draw.textbbox((0, 0), current_datetime, font=font)
         text_width = bbox[2] - bbox[0]
@@ -126,7 +129,6 @@ class Util_Test:
         text_position = (text_padding, image_height - text_height - text_padding)
         draw.text(text_position, current_datetime, fill="black", font=font)
         filepath = os.path.abspath(Util_Test.folder_path) + '/' + fileName
-        # print("file path =", filepath)
         image.save(filepath)
         return filepath
 
@@ -203,15 +205,14 @@ class Util_Test:
 
     @staticmethod
     def add_test_name_to_doc(testcasename):
-        doc_path = ("C:\\Users\\PrathyushaDaddolu\\PharmaTek_Solutions\\DocuSign-Automation\\tests"
-                    "\\DocuSignTestSummaryReport.docx")
+        doc_path = Util_Test.document_path()
         doc = Document(doc_path)
         doc.add_heading(testcasename, level=2)
         doc.save(doc_path)
+
     @staticmethod
     def add_failed_message_doc(testname):
-        doc_path = ("C:\\Users\\PrathyushaDaddolu\\PharmaTek_Solutions\\DocuSign-Automation\\tests"
-                    "\\DocuSignTestSummaryReport.docx")
+        doc_path = Util_Test.document_path()
         doc = Document(doc_path)
         image_folder = Util_Test.folder_path
         for image_name in sorted(os.listdir(image_folder)):
@@ -225,14 +226,14 @@ class Util_Test:
                 doc.add_picture(image_path, width=Inches(7.0), height=Inches(3.8))
                 break
         paragraph = doc.add_paragraph()
-        run1 = paragraph.add_run(testname+'----'+' Script Failed')
+        run1 = paragraph.add_run(testname + '----' + ' Script Failed')
         run1.font.color.rgb = RGBColor(255, 0, 0)  # Red color
         doc.save(doc_path)
+
     @staticmethod
     def add_screenshots_to_doc():
 
-        doc_path = ("C:\\Users\\PrathyushaDaddolu\\PharmaTek_Solutions\\DocuSign-Automation\\tests"
-                    "\\DocuSignTestSummaryReport.docx")
+        doc_path = Util_Test.document_path()
         doc = Document(doc_path)
         if doc:
             print("Document loaded successfully.")
@@ -245,12 +246,28 @@ class Util_Test:
                 image_name = image_name.split(".")
                 doc.add_paragraph(image_name[1])
                 # Append the image to the document
-                doc.add_picture(image_path, width=Inches(7.0), height=Inches(3.9))  # Adjust the width as needed
+                doc.add_picture(image_path, width=Inches(7.0), height=Inches(3.8))  # Adjust the width as needed
 
                 # Add a paragraph break for spacing between images (optional)
                 # doc.add_paragraph('')
 
-
-
         # Save the document with the newly appended images
         doc.save(doc_path)
+
+    @staticmethod
+    def document_path():
+        summary_report = constants.summary_report_path
+        root_directory = os.getcwd()
+        relative_path = Path(summary_report)
+        doc_path = root_directory / relative_path
+        file_path = Path(doc_path)
+        summary_report_path = str(file_path)
+        return summary_report_path
+
+    @staticmethod
+    def create_document():
+        doc = Document()
+        summary_report_path = Util_Test.document_path()
+        doc.save(summary_report_path)
+
+

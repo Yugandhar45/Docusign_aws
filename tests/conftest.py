@@ -18,6 +18,7 @@ import pytz
 from py.xml import html
 
 
+
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="edge")
 
@@ -62,6 +63,7 @@ def test_setup(request):
     driver.maximize_window()
     driver.delete_all_cookies()
     request.cls.driver = driver
+    Util_Test.create_document()
     yield
     driver.close()
 
@@ -133,7 +135,7 @@ def pytest_metadata(metadata):
     metadata.pop("Python", None)
 
 
-def pytest_terminal_summary(terminalreporter, exitstatus, config):
+def pytest_terminal_summary(terminalreporter):
     # Getting the test results
     passed_tests = terminalreporter.stats.get('passed', [])
     failed_tests = terminalreporter.stats.get('failed', [])
@@ -144,16 +146,18 @@ def pytest_terminal_summary(terminalreporter, exitstatus, config):
     skipped = len(skipped_tests)
 
     # Creating a Word document
-    doc_path = ("C:\\Users\\PrathyushaDaddolu\\PharmaTek_Solutions\\DocuSign-Automation\\tests"
-                "\\DocuSignTestSummaryReport.docx")
+    doc_path = Util_Test.document_path()
     doc = Document(doc_path)
-    doc.add_heading('Pytest Test Report', 0)
+    #doc.add_heading('Pytest Test Report', 0)
 
     # Writing passed tests
     doc.add_heading('Passed Tests', level=1)
     if passed_tests:
         for test in passed_tests:
-            doc.add_paragraph(test.nodeid)
+            i = 1
+            testname = test.nodeid.split('::')
+            doc.add_paragraph("Test Script - {} : {} ".format(i, testname[2]))
+            i += 1
     else:
         doc.add_paragraph("No tests passed.")
 
@@ -165,26 +169,19 @@ def pytest_terminal_summary(terminalreporter, exitstatus, config):
             testname = test.nodeid.split('::')
             doc.add_paragraph("Test Script - {} : {} ".format(i, testname[2]))
             i += 1
-    # else:
-    #     doc.add_paragraph("No tests failed.")
 
     # Writing skipped tests
     if skipped_tests:
         doc.add_heading('Skipped Tests', level=1)
         for test in skipped_tests:
+            i = 1
             testname = test.nodeid.split('::')
-            doc.add_paragraph(testname[2])
-    # else:
-    #     doc.add_paragraph("No tests were skipped.")
-
+            doc.add_paragraph("Test Script - {} : {} ".format(i, testname[2]))
+            i += 1
     # Summary of results
     doc.add_heading('Summary', level=1)
     doc.add_paragraph(f"Total Passed: {passed}")
     doc.add_paragraph(f"Total Failed: {failed}")
     doc.add_paragraph(f"Total Skipped: {skipped}")
-
-    # Saving the Word document
     doc.save(doc_path)
-
-    # Printing the summary in the console
     print(f"\nPassed: {passed}, Failed: {failed}, Skipped: {skipped}")
