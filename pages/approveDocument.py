@@ -23,10 +23,8 @@ class Approve_Envelope:
         self.no_thanks_button = "//button[@data-qa='sign-next-no-thanks']"
         self.other_actions = "//button[@data-qa='toggle-other-actions']"
         # Options under oth actions
-        self.finish_later_button = ("//div[contains(@class,'menu below right visible')]//button[contains(text(),"
-                                    "'Finish Later')]")
-        self.decline_to_sign_button = ("//div[contains(@class,'menu below right visible')]//button[contains(text(),"
-                                       "'Decline to Sign')]")
+        self.finish_later_button = "//button[@id='finishLater']"
+        self.decline_to_sign_button = "//button[@id='decline']"
         self.help_support_button = ("//div[contains(@class,'menu below right visible')]//span[contains(text(),'Help & "
                                     "Support')]")
         self.about_docusign_button = ("//div[contains(@class,'menu below right visible')]//span[contains(text(),"
@@ -149,14 +147,16 @@ class Approve_Envelope:
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, self.other_actions))).click()
         assert all(WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((
             By.XPATH, xpath))).is_displayed() for xpath in
-                   [self.finish_later_button, self.decline_to_sign_button, self.help_support_button,
-                    self.about_docusign_button, self.view_history_button])
+                   [self.finish_later_button, self.decline_to_sign_button])
+        # Now these items are removed from the Other actions list
+        # self.help_support_button,self.about_docusign_button, self.view_history_button
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.decline_to_sign_button))).click()
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((
             By.XPATH, self.decline_continue_button))).click()
         WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((
             By.XPATH, self.decline_reason_text_box))).send_keys(decline_reason)
+        self.utils.getscreenshot('/3.Reason_For_Envelope_Declining.png')
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((
             By.XPATH, self.dialog_decline_to_sign))).click()
 

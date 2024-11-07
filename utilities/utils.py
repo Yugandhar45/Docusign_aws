@@ -10,7 +10,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from testData import constants as constants
-import pandas as pd
 import os
 import time
 from PIL import Image, ImageDraw, ImageFont
@@ -28,6 +27,7 @@ class Util_Test:
     logs_folder_path = constants.custom_logs_path
     test_name = constants.test_name
 
+
     def __init__(self, driver):
         self.driver = driver
 
@@ -41,18 +41,18 @@ class Util_Test:
             "//button[@data-qa='regional_settings_allow_user_to_set_time_zone_format_cb']"
         self.dat_time_format_dropdown = "//select[@data-qa='date-time-format-dropdown']"
 
-    def read_data_from_csv(self, fileName):
-        date_time_columns = pd.read_csv(fileName, usecols=[
-            'Sent On (Date)', 'Sent On (Time)', 'Last Activity (Date)', 'Last Activity (Time)', 'Completed On (Date)',
-            'Completed On (Time)'])
-        print(date_time_columns)
-        assert "Sent On (Date)" in date_time_columns
-        assert "Sent On (Time)" in date_time_columns
-        assert "Last Activity (Date)" in date_time_columns
-        assert "Last Activity (Time)" in date_time_columns
-        assert "Completed On (Date)" in date_time_columns
-        assert "Completed On (Time)" in date_time_columns
-        self.driver.save_screenshot('./screenshots/sample.png')
+    # def read_data_from_csv(self, fileName):
+    #     date_time_columns = pd.read_csv(fileName, usecols=[
+    #         'Sent On (Date)', 'Sent On (Time)', 'Last Activity (Date)', 'Last Activity (Time)', 'Completed On (Date)',
+    #         'Completed On (Time)'])
+    #     print(date_time_columns)
+    #     assert "Sent On (Date)" in date_time_columns
+    #     assert "Sent On (Time)" in date_time_columns
+    #     assert "Last Activity (Date)" in date_time_columns
+    #     assert "Last Activity (Time)" in date_time_columns
+    #     assert "Completed On (Date)" in date_time_columns
+    #     assert "Completed On (Time)" in date_time_columns
+    #     self.driver.save_screenshot('./screenshots/sample.png')
 
     def logout(self):
         WebDriverWait(self.driver, 60).until(EC.visibility_of_element_located((
@@ -243,8 +243,8 @@ class Util_Test:
                 # Full path to the image
                 image_path = os.path.join(image_folder, image_name)
                 # Add a paragraph with the image name (optional)
-                image_name = image_name.split(".")
-                doc.add_paragraph(image_name[1])
+                image_name = image_name.split(".png")
+                doc.add_paragraph(image_name[0])
                 # Append the image to the document
                 doc.add_picture(image_path, width=Inches(7.0), height=Inches(3.8))  # Adjust the width as needed
 

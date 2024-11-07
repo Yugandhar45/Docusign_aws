@@ -80,7 +80,7 @@ class Test_Verify_SignedDoc_NoDeletionOrReplacement:
             login.login_page(constants.signer1_email, constants.signer1_password)
             Util_Test.write_custom_logs(logger, "Completed the authentication before signing.")
             sign = Approve_Envelope(driver)
-            sign.clickContinueBtnForSigning()
+            #sign.clickContinueBtnForSigning()
             Util_Test.write_custom_logs(logger, "Clicked on the 'Continue' button for signing and validated that the button was displayed.")
             sign.clickSecondarySignButton(constants.index_one)
             Util_Test.write_custom_logs(logger, "Clicked on the signing tag button.")

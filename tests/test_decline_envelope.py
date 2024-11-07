@@ -91,7 +91,7 @@ class Test_DeclineEnvelope:
             Util_Test.write_custom_logs(logger, "Declined the Envelope with reason")
             signing.validate_doc_status(constants.decline_status)
             Util_Test.write_custom_logs(logger, "validated envelope status as declined")
-            utils.getscreenshot('/3.Decline_Envelope.png')
+            utils.getscreenshot('/4.Decline_Envelope.png')
             Util_Test.add_test_name_to_doc(request.node.name)
             Util_Test.add_screenshots_to_doc()
         except:

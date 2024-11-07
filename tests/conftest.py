@@ -22,6 +22,9 @@ from py.xml import html
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="edge")
 
+@pytest.fixture(scope="session", autouse=True)
+def suite_setup():
+    Util_Test.create_document()
 
 @pytest.fixture(scope='class')
 def test_setup(request):
@@ -63,7 +66,7 @@ def test_setup(request):
     driver.maximize_window()
     driver.delete_all_cookies()
     request.cls.driver = driver
-    Util_Test.create_document()
+    #Util_Test.create_document()
     yield
     driver.close()
 
@@ -153,8 +156,8 @@ def pytest_terminal_summary(terminalreporter):
     # Writing passed tests
     doc.add_heading('Passed Tests', level=1)
     if passed_tests:
+        i = 1
         for test in passed_tests:
-            i = 1
             testname = test.nodeid.split('::')
             doc.add_paragraph("Test Script - {} : {} ".format(i, testname[2]))
             i += 1
@@ -164,8 +167,8 @@ def pytest_terminal_summary(terminalreporter):
     # Writing failed tests
     if failed_tests:
         doc.add_heading('Failed Tests', level=1)
+        i = 1
         for test in failed_tests:
-            i = 1
             testname = test.nodeid.split('::')
             doc.add_paragraph("Test Script - {} : {} ".format(i, testname[2]))
             i += 1
@@ -173,8 +176,8 @@ def pytest_terminal_summary(terminalreporter):
     # Writing skipped tests
     if skipped_tests:
         doc.add_heading('Skipped Tests', level=1)
+        i = 1
         for test in skipped_tests:
-            i = 1
             testname = test.nodeid.split('::')
             doc.add_paragraph("Test Script - {} : {} ".format(i, testname[2]))
             i += 1

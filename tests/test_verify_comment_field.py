@@ -74,7 +74,7 @@ class Test_Verify_Comment_Field:
             Util_Test.write_custom_logs(logger, "Clicked on the primary sign button.")
             login.login_page(constants.signer1_email, constants.signer1_password)
             Util_Test.write_custom_logs(logger, "Completed the authentication before signing.")
-            approve.clickContinueBtnForSigning()
+            #approve.clickContinueBtnForSigning()
             Util_Test.write_custom_logs(logger, "Clicked on the continue button")
             utils.execute_script_with_banner("Recipient 1 adding the Signature for pending document")
             approve.clickSecondarySignButton(constants.index_one)

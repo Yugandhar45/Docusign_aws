@@ -96,7 +96,7 @@ class Test_ReceiverReceivesEnvelope:
             utils.execute_script_with_banner("Completing Authentication process before signer sign the document")
             login.login_page(constants.signer1_email, constants.signer1_password)
             Util_Test.write_custom_logs(logger, "Completed the authentication before signing.")
-            approve.clickContinueBtnForSigning()
+            #approve.clickContinueBtnForSigning()
             Util_Test.write_custom_logs(logger,
                                         "Clicked on the 'Continue' button for signing and validated that the button was displayed.")
             utils.execute_script_with_banner("Recipient 1 adding the Signature for pending document")

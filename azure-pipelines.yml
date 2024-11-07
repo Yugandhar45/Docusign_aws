@@ -25,7 +25,6 @@ jobs:
       python -m pip install --upgrade pip
       pip install selenium
       pip install -r requirements.txt
-      pip install pandas
       pip install --upgrade webdriver_manager
       pip install --upgrade urllib3
     displayName: 'Install dependencies'
