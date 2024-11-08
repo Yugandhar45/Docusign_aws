@@ -186,10 +186,14 @@ class Test_SendEnvelope_Approve:
             Util_Test.write_custom_logs(logger, "Clicked on the 'Finish' button.")
             utils.execute_script_with_banner("Logout as Signer1 after completing the process")
             utils.logout()
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
             Util_Test.write_custom_logs(logger, "Recipient-1 logged out from the application")
         except:
             # Log the exception and mark the test as failed
             Util_Test.write_custom_logs(logger, f"Test  case failed")
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
             pytest.fail()
 
     @pytest.mark.dependency(depends=["Test_SendEnvelope_Approve::test_send_envelope_approve"])
@@ -200,6 +204,7 @@ class Test_SendEnvelope_Approve:
         driver.get(constants.outlook_url)
         Util_Test.write_custom_logs(logger, "Opened the Outlook URL.")
         outlook = Outlook_Page(driver)
+        utils.create_directory(request.node.name)
         time.sleep(5)
         utils.execute_script_with_banner("Entering the sender outlook credentials")
         try:
@@ -214,9 +219,13 @@ class Test_SendEnvelope_Approve:
             Util_Test.write_custom_logs(logger, "Verified the completed envelope notification")
             utils.getscreenshot('/4.Envelope_completed_notification.png')
             Util_Test.write_custom_logs(logger, "Send envelop and approve script execution - Completed")
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
         except:
             # Log the exception and mark the test as failed
             Util_Test.write_custom_logs(logger, f"Test  case failed")
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
             pytest.fail()
 
     # Combine and download all docs
@@ -226,6 +235,7 @@ class Test_SendEnvelope_Approve:
         driver.get(constants.baseUrl)
         login = Login_Page(driver)
         utils = Util_Test(driver)
+        utils.create_directory(request.node.name)
         try:
             utils.execute_script_with_banner("Entering the username and password to log in as the sender")
             login.login_page(constants.sender_email, constants.sender_password)
@@ -239,24 +249,24 @@ class Test_SendEnvelope_Approve:
             Download_Page.delete_existing_doc(constants.pdf_file_path)
             envelope_id_text = download.getting_envelope_id()
             envelope_id_text = envelope_id_text.upper()
-            envelope_id_text2 = envelope_id_text.replace("-", "")
+            #envelope_id_text2 = envelope_id_text.replace("-", "")
             print("Envelope_id from Test method = ", envelope_id_text)
             # Combine and download the all PDFs into one
             utils.execute_script_with_banner("Downloading the Envelopes by combining in one pdf")
             download.combine_download(True)
             Util_Test.write_custom_logs(logger, "Downloaded completed document with completion certificate")
-            file_contents = [constants.pdf_file_path, envelope_id_text2, constants.coc_text]
+            file_contents = [constants.pdf_file_path, envelope_id_text, constants.coc_text]
             utils.execute_script_with_banner("Validating and Verifying the Downloaded document")
             Util_Test.validate_pdf_data(file_contents)
             Util_Test.write_custom_logs(logger, "Validated the pdf data")
             utils.execute_script_with_banner("Logout as Sender after completing the process")
             utils.logout()
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
             Util_Test.write_custom_logs(logger, "The sender Logged out from the application")
         except:
             # Log the exception and mark the test as failed
             Util_Test.write_custom_logs(logger, f"Test  case failed")
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
             pytest.fail()
-
-    def test_Envelope_Complete_WorkFlow(self, request):
-        Util_Test.add_test_name_to_doc(request.node.name)
-        Util_Test.add_screenshots_to_doc()

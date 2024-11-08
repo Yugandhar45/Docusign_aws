@@ -216,7 +216,7 @@ class Util_Test:
         doc = Document(doc_path)
         image_folder = Util_Test.folder_path
         for image_name in sorted(os.listdir(image_folder)):
-            if image_name.startswith('Screenshot_while_failed.png'):
+            if image_name.startswith('Failed_Screenshot.png'):
                 # Full path to the image
                 image_path = os.path.join(image_folder, image_name)
                 image_name = image_name.split(".")

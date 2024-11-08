@@ -133,7 +133,7 @@ class Test_SendTemplate_Approve:
             sign.e_sign_reason()
             Util_Test.write_custom_logs(logger, "Selected the reason for signing from the dropdown.")
             sign.switchToNewTab(constants.signer1_email, constants.signer1_password)
-            utils.getscreenshot('/4.Completed_sign_process.png')
+            utils.getscreenshot('/4.Completed_signing.png')
             Util_Test.write_custom_logs(logger, "Completed the final authentication step before signing.")
             utils.execute_script_with_banner("Clicking on Finish Button")
             sign.click_finish_btn()

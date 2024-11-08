@@ -92,7 +92,7 @@ def pytest_runtest_makereport(item):
                 if not os.path.exists(screenshots_dir):
                     os.makedirs(screenshots_dir)
                 try:
-                    screenshot_path = util_test.getscreenshot("Screenshot_while_failed.png")
+                    screenshot_path = util_test.getscreenshot("Failed_Screenshot.png")
                     Util_Test.add_failed_message_doc(Util_Test.test_name)
                     if os.path.exists(screenshot_path):
                         with open(screenshot_path, "rb") as image_file:

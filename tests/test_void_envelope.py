@@ -84,13 +84,17 @@ class Test_Voiding_Envelope:
             utils.execute_script_with_banner("The status of the document is voided")
             approve.validate_doc_status(constants.void_status)
             Util_Test.write_custom_logs(logger, "Validated the envelop status that is in Voided")
-            utils.getscreenshot('/2.Voided_Envelope.png')
+            utils.getscreenshot('/1.Voided_Envelope.png')
             utils.execute_script_with_banner("Logout as Signer1 after completing the Process")
             utils.logout()
             Util_Test.write_custom_logs(logger, "Logged out from the sender")
             Util_Test.write_custom_logs(logger, "Void envelop script execution - Completed")
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
         except:
             Util_Test.write_custom_logs(logger, f" void_envelope Test case failed")
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
             pytest.fail()
 
     @pytest.mark.dependency(depends=["Test_Voiding_Envelope::test_void_envelope"])
@@ -98,6 +102,7 @@ class Test_Voiding_Envelope:
         driver = request.cls.driver
         outlook = Outlook_Page(driver)
         utils = Util_Test(driver)
+        utils.create_directory(request.node.name)
         driver.get(constants.outlook_url)
         Util_Test.write_custom_logs(logger, "*****************************************************")
         Util_Test.write_custom_logs(logger, "verify_void_notification Test case execution -- Started")
@@ -116,10 +121,10 @@ class Test_Voiding_Envelope:
             Util_Test.write_custom_logs(logger, "Validated the void envelop reason.")
             utils.getscreenshot('/2.Envelope_Voided_notification_to_signer.png')
             Util_Test.write_custom_logs(logger, f"verify_void_notification Execution - Completed")
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
         except:
             Util_Test.write_custom_logs(logger, f"verify_void_notification Test case failed")
+            Util_Test.add_test_name_to_doc(request.node.name)
+            Util_Test.add_screenshots_to_doc()
             pytest.fail()
-
-    def test_void_Envelope_and_Verify_notification(self, request):
-        Util_Test.add_test_name_to_doc(request.node.name)
-        Util_Test.add_screenshots_to_doc()

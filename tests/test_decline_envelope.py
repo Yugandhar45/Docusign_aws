@@ -17,7 +17,7 @@ class Test_DeclineEnvelope:
     decline_reason = constants.decline_reason
 
     @pytest.mark.dependency()
-    def test_declineEnvelope(self, request):
+    def test_signer_decline_envelope(self, request):
         driver = request.cls.driver
         driver.get(constants.baseUrl)
         login = Login_Page(driver)
@@ -101,7 +101,7 @@ class Test_DeclineEnvelope:
             Util_Test.add_screenshots_to_doc()
             pytest.fail()
 
-    @pytest.mark.dependency(depends=["Test_DeclineEnvelope::test_declineEnvelope"])
+    @pytest.mark.dependency(depends=["Test_DeclineEnvelope::test_signer_decline_envelope"])
     def test_verify_decline_notification(self, request):
         driver = request.cls.driver
         driver.get(constants.outlook_url)
@@ -117,7 +117,7 @@ class Test_DeclineEnvelope:
             utils.execute_script_with_banner("Verifying the Declined notification")
             outlook.validate_decline_reason(Test_DeclineEnvelope.decline_reason)
             Util_Test.write_custom_logs(logger, "validated the envelope declined notification")
-            utils.getscreenshot('/4.Envelope_declined_notification_to_sender.png')
+            utils.getscreenshot('/5 .Envelope_declined_notification_to_sender.png')
             Util_Test.write_custom_logs(logger, "Decline Envelope Script execution:COMPLETED")
             Util_Test.add_test_name_to_doc(request.node.name)
             Util_Test.add_screenshots_to_doc()
@@ -127,8 +127,4 @@ class Test_DeclineEnvelope:
             Util_Test.add_test_name_to_doc(request.node.name)
             Util_Test.add_screenshots_to_doc()
             pytest.fail()
-
-    # def test_Decline_Envelope(self, request):
-    #     Util_Test.add_test_name_to_doc(request.node.name)
-    #     Util_Test.add_screenshots_to_doc()
 
