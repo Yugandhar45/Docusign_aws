@@ -221,7 +221,7 @@ class Util_Test:
                 image_path = os.path.join(image_folder, image_name)
                 image_name = image_name.split(".")
                 # Add a paragraph with the image name (optional)
-                doc.add_paragraph(image_name[1])
+                doc.add_paragraph(image_name[0])
                 # Append the image to the document
                 doc.add_picture(image_path, width=Inches(7.0), height=Inches(3.8))
                 break

@@ -66,9 +66,8 @@ def test_setup(request):
     driver.maximize_window()
     driver.delete_all_cookies()
     request.cls.driver = driver
-    #Util_Test.create_document()
     yield
-    driver.close()
+    driver.quit()
 
 
 # HTML Reports
