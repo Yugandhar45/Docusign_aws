@@ -67,6 +67,7 @@ def test_setup(request):
     driver.delete_all_cookies()
     request.cls.driver = driver
     yield
+    Util_Test.testCaseNum = Util_Test.testCaseNum + 1
     driver.quit()
 
 
@@ -112,7 +113,7 @@ def pytest_runtest_makereport(item):
     report.extra = extra
 
 
-# It is the Hook to add the logo in the screenshot
+# It is the Hook to add the logo in the Report
 @pytest.hookimpl(tryfirst=True)
 def pytest_html_results_summary(prefix):
     logo_path = os.path.join(os.path.dirname(__file__), 'reports', constants.logo_path)
@@ -150,8 +151,6 @@ def pytest_terminal_summary(terminalreporter):
     # Creating a Word document
     doc_path = Util_Test.document_path()
     doc = Document(doc_path)
-    #doc.add_heading('Pytest Test Report', 0)
-
     # Writing passed tests
     doc.add_heading('Passed Tests', level=1)
     if passed_tests:

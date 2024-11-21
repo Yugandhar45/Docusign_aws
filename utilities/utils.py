@@ -5,7 +5,8 @@ from pathlib import Path
 
 import pypdf
 from docx import Document
-from docx.shared import Inches, RGBColor
+from docx.shared import Inches, RGBColor, Pt
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -17,6 +18,8 @@ import logging
 from logging.handlers import RotatingFileHandler
 import random
 import string
+from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
 
 # Initialize logger and file handler outside the method
 log_formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s ', datefmt='%Y-%m-%d %H:%M:%S')
@@ -26,6 +29,7 @@ class Util_Test:
     folder_path = constants.screenshots_path
     logs_folder_path = constants.custom_logs_path
     test_name = constants.test_name
+    testCaseNum = 1
 
 
     def __init__(self, driver):
@@ -40,19 +44,6 @@ class Util_Test:
         self.allow_user_set_time_zone_format = \
             "//button[@data-qa='regional_settings_allow_user_to_set_time_zone_format_cb']"
         self.dat_time_format_dropdown = "//select[@data-qa='date-time-format-dropdown']"
-
-    # def read_data_from_csv(self, fileName):
-    #     date_time_columns = pd.read_csv(fileName, usecols=[
-    #         'Sent On (Date)', 'Sent On (Time)', 'Last Activity (Date)', 'Last Activity (Time)', 'Completed On (Date)',
-    #         'Completed On (Time)'])
-    #     print(date_time_columns)
-    #     assert "Sent On (Date)" in date_time_columns
-    #     assert "Sent On (Time)" in date_time_columns
-    #     assert "Last Activity (Date)" in date_time_columns
-    #     assert "Last Activity (Time)" in date_time_columns
-    #     assert "Completed On (Date)" in date_time_columns
-    #     assert "Completed On (Time)" in date_time_columns
-    #     self.driver.save_screenshot('./screenshots/sample.png')
 
     def logout(self):
         WebDriverWait(self.driver, 60).until(EC.visibility_of_element_located((
@@ -104,15 +95,15 @@ class Util_Test:
             Util_Test.folder_path = os.path.join(root_directory, 'screenshots', folder_name)
         os.makedirs(Util_Test.folder_path)
 
-    @staticmethod
-    def create_directory_for_customlogs(self, test_name, root_directory=None):
-        timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-        folder_name = test_name + '_' + timestamp
-        # global folder_path
-        if root_directory is None:
-            root_directory = os.getcwd()
-            Util_Test.logs_folder_path = os.path.join(root_directory, 'executionlogs', folder_name)
-        os.makedirs(Util_Test.logs_folder_path)
+    # @staticmethod
+    # def create_directory_for_customlogs(self, test_name, root_directory=None):
+    #     timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    #     folder_name = test_name + '_' + timestamp
+    #     # global folder_path
+    #     if root_directory is None:
+    #         root_directory = os.getcwd()
+    #         Util_Test.logs_folder_path = os.path.join(root_directory, 'executionlogs', folder_name)
+    #     os.makedirs(Util_Test.logs_folder_path)
 
     def getscreenshot(self, fileName):
         screenshot = self.driver.get_screenshot_as_png()
@@ -135,14 +126,14 @@ class Util_Test:
     @staticmethod
     def password_encrypt(*args):
         for value_to_encrypt in args:
-            string = value_to_encrypt
-            encrypt_string = base64.b64encode(string.encode("utf-8"))
+            password = value_to_encrypt
+            encrypt_string = base64.b64encode(password.encode("utf-8"))
             print(value_to_encrypt + ":", encrypt_string)
 
     @staticmethod
     def password_decrypt(value_to_decrypt):
-        string = value_to_decrypt
-        decrypt_string = base64.decodebytes(string).decode("utf-8")
+        password = value_to_decrypt
+        decrypt_string = base64.decodebytes(password).decode("utf-8")
         return decrypt_string
 
     # @staticmethod
@@ -207,7 +198,10 @@ class Util_Test:
     def add_test_name_to_doc(testcasename):
         doc_path = Util_Test.document_path()
         doc = Document(doc_path)
-        doc.add_heading(testcasename, level=2)
+        testcasenum = f"TestCase{Util_Test.testCaseNum} :"
+        testname = testcasenum+testcasename
+        doc.add_paragraph()
+        doc.add_heading(testname, level=1)
         doc.save(doc_path)
 
     @staticmethod
@@ -247,10 +241,6 @@ class Util_Test:
                 doc.add_paragraph(image_name[0])
                 # Append the image to the document
                 doc.add_picture(image_path, width=Inches(7.0), height=Inches(3.8))  # Adjust the width as needed
-
-                # Add a paragraph break for spacing between images (optional)
-                # doc.add_paragraph('')
-
         # Save the document with the newly appended images
         doc.save(doc_path)
 
@@ -268,6 +258,54 @@ class Util_Test:
     def create_document():
         doc = Document()
         summary_report_path = Util_Test.document_path()
+        for x in range(5):
+            doc.add_paragraph()
+        # Add title to the cover page
+        title = doc.add_paragraph()
+        title_run = title.add_run("DocuSign Automation")
+        title_run.font.size = Pt(28)
+        title.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+        # Add subtitle to the cover page
+        subtitle = doc.add_paragraph()
+        subtitle_run = subtitle.add_run("Test Summary Report")
+        subtitle_run.font.size = Pt(22)
+        subtitle.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+        # Add date
+        date = doc.add_paragraph()
+        date_run = date.add_run(datetime.now().strftime("%B %d, %Y"))
+        date_run.font.size = Pt(16)
+        date.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+
+        # Add a header
+        header = doc.sections[0].header
+        header_paragraph = header.paragraphs[0]
+        # Insert the logo image in the header
+        logo_run = header_paragraph.add_run()
+        logo_path = os.path.join(os.path.dirname("tests"), 'reports', constants.logo_path)
+        logo_run.add_picture(logo_path, width=Inches(1.5))
+        # Add a footer
+        footer = doc.sections[0].footer
+        # Add a paragraph to the footer for the page number
+        footer_paragraph = footer.paragraphs[0]
+        footer_paragraph.text = "Page "  # Static text before the page number
+
+        # Create the "PAGE" field element
+        page_number_run = footer_paragraph.add_run()
+        fld_char = OxmlElement("w:fldChar")  # Start of field
+        fld_char.set(qn("w:fldCharType"), "begin")
+        instr_text = OxmlElement("w:instrText")  # Field instructions
+        instr_text.text = "PAGE"
+        fld_char_separate = OxmlElement("w:fldChar")  #Separator between field code and result
+        fld_char_end = OxmlElement("w:fldChar")  # End of field
+        fld_char_end.set(qn("w:fldCharType"), "end")
+        page_number_run.font.color.rgb = None
+
+        # Add field elements in the correct order
+        page_number_run._r.append(fld_char)
+        page_number_run._r.append(instr_text)
+        page_number_run._r.append(fld_char_separate)
+        page_number_run._r.append(fld_char_end)
+        doc.add_page_break()
         doc.save(summary_report_path)
 
 

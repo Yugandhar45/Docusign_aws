@@ -14,7 +14,6 @@ class Test_Validate_InProcess_Envelope:
 
     def test_validate_sender_actions(self, request):
         driver = request.cls.driver
-
         login = Login_Page(driver)
         home = Home_Page(driver)
         upload = Upload_Page(driver)
