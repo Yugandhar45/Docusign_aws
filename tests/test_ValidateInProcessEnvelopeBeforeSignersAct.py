@@ -12,7 +12,7 @@ import pytest
 @pytest.mark.usefixtures("test_setup")
 class Test_Validate_InProcess_Envelope:
 
-    def test_validate_sender_actions(self, request):
+    def test_validateInProcessEnvelopeBeforeSignersAct(self, request):
         driver = request.cls.driver
         login = Login_Page(driver)
         home = Home_Page(driver)

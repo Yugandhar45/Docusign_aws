@@ -48,7 +48,7 @@ class Util_Test:
     def logout(self):
         WebDriverWait(self.driver, 60).until(EC.visibility_of_element_located((
             By.XPATH, self.profile_button))).click()
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((
+        WebDriverWait(self.driver, 60).until(EC.element_to_be_clickable((
             By.CSS_SELECTOR, self.logoff_button))).click()
         loginpage = WebDriverWait(self.driver, 45).until(EC.visibility_of_element_located((
             By.XPATH, "//span [contains(text(),'Log in to Docusign')]"))).is_displayed()

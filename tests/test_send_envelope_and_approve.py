@@ -140,8 +140,7 @@ class Test_SendEnvelope_Approve:
             Util_Test.write_custom_logs(logger, "Validated the options under reason for signing.")
             approve.e_sign_reason()
             Util_Test.write_custom_logs(logger, "Selected the reason for signing from the dropdown.")
-            approve.switchToNewTab(constants.signer2_email, constants.signer2_password,
-                                   True)  # updated for capturing the screenshot
+            approve.switchToNewTab(constants.signer2_email, constants.signer2_password,True)  # updated for capturing the screenshot
             utils.getscreenshot('/3.3_E_Signature.png')
             utils.execute_script_with_banner("Clicking on Finish Button")
             Util_Test.write_custom_logs(logger, "Completed the final authentication process and signing")

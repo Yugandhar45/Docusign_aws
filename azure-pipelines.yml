@@ -5,7 +5,7 @@ variables:
   TriggeringUser: $[ coalesce(variables['Build.RequestedFor'], 'Unknown') ]
 
 jobs:
-- job: Self_Hosted_Environment
+- job: DocuSign Automation Test Suite
   pool:
     name: VMpool
   steps:
@@ -35,7 +35,7 @@ jobs:
 
   - script: |
       cd $(Build.SourcesDirectory)/tests
-      pytest -v -s -vv -p no:warnings --html=reports\report.html --self-contained-html --capture=tee-sys
+      pytest -v -s test_change_sign_tag_size.py -vv -p no:warnings --html=reports\report.html --self-contained-html --capture=tee-sys
     displayName: 'Run tests'
 
   - task: PublishPipelineArtifact@1

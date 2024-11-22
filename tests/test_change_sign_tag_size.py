@@ -1,3 +1,5 @@
+import time
+
 from pages.loginPage import Login_Page
 from pages.homePage import Home_Page
 from testData import constants as constants
@@ -24,6 +26,8 @@ class Test_Change_Sign_Tag_Size:
             "Entering the username and password to log in as the sender")
         try:
             Util_Test.write_custom_logs(logger, "Change signature Tag size script execution - Started")
+            time.sleep(5)
+            utils.getscreenshot('/1.Login Page.png')
             login.login_page(constants.sender_email, constants.sender_password)
             Util_Test.write_custom_logs(logger, "Logged in to the DocuSign Application successfully")
             utils.execute_script_with_banner("Home page is Displayed")
@@ -50,13 +54,13 @@ class Test_Change_Sign_Tag_Size:
             utils.execute_script_with_banner(logger, "Changing the size of Signature Tag")
             add_sign.addSignatureTag(350)
             Util_Test.write_custom_logs(logger, "Dragged and dropped the signature tag for recipient 1")
-            utils.getscreenshot('/1.Before_changing_Signature_Tag_size_100%_resolution.png')
+            utils.getscreenshot('/2.Before_changing_Signature_Tag_size_100%_resolution.png')
             #Util_Test.add_screenshots_to_doc()
             add_sign.validateOptionsUnderSignature()
             Util_Test.write_custom_logs(logger, "Validated the options under the signature section")
             add_sign.change_sign_tag_size()
             Util_Test.write_custom_logs(logger, "Increased the signature tag size for recipient 1")
-            utils.getscreenshot('/2.After_Changing_signature_Tag_size_200%_resolution.png')
+            utils.getscreenshot('/3.After_Changing_signature_Tag_size_200%_resolution.png')
             add_sign.select_signer(constants.index_two)
             Util_Test.write_custom_logs(logger, "Selected the Recipient2 from the drop down")
             add_sign.addSignatureTag(650)

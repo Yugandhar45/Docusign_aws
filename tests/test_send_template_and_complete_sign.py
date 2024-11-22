@@ -103,7 +103,7 @@ class Test_SendTemplate_Approve:
             outlook.clickRecentEmail(constants.recent_mail_for_review_envelope)
             Util_Test.write_custom_logs(logger, "Found and opened the desired mail.")
             # utils.execute_script_with_banner("Clicking on the Review Documents button to review the Documents")
-            outlook.review_Document()
+            outlook.review_Document(True)
             Util_Test.write_custom_logs(logger, "Reviewing the document after opening the desired mail.")
             current_window = driver.current_window_handle
             windows = driver.window_handles
