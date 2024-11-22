@@ -200,7 +200,7 @@ class Util_Test:
         doc = Document(doc_path)
         testcasenum = f"TestCase{Util_Test.testCaseNum} :"
         testname = testcasenum+testcasename
-        doc.add_paragraph()
+        #doc.add_paragraph()
         doc.add_heading(testname, level=1)
         doc.save(doc_path)
 
