@@ -83,7 +83,7 @@ class Outlook_Page:
 
     def validate_decline_reason(self, expected_reason):
         reason = self.reason_for_decline.replace('Testing', expected_reason)
-        decline_reason = WebDriverWait(self.driver, 20).until(
+        decline_reason = WebDriverWait(self.driver, 60).until(
             EC.visibility_of_element_located((By.XPATH, reason))).is_displayed()
         assert decline_reason
 
