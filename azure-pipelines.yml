@@ -5,7 +5,7 @@ variables:
   TriggeringUser: $[ coalesce(variables['Build.RequestedFor'], 'Unknown') ]
 
 jobs:
-- job: DocuSign Automation Test Suite
+- job: DocuSign_Automation_Test_Suite
   pool:
     name: VMpool
   steps:
