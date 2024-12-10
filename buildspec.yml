@@ -34,3 +34,5 @@ artifacts:
 cache:
   paths:
     - '/root/.cache/pip/**/*'
+
+#yaml for the aws codepipeline
