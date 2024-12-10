@@ -28,10 +28,8 @@ artifacts:
     - screenshots/**/*  # Include screenshots
     - executionlogs/**/*  # Include execution logs
 
-  # Optionally specify file paths to be included as artifacts.
-  discard-paths: yes
+  discard-paths: yes  # Optionally discard paths for cleaner artifact storage
 
 cache:
   paths:
     - '/root/.cache/pip/**/*'  # Cache pip dependencies to speed up future builds
-
