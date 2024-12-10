@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
-      # Install Python 3.9
+      # Install Python 3.9 and upgrade pip
       - echo "Installing Python 3.9"
       - curl -sS https://bootstrap.pypa.io/get-pip.py | python3
       - python3 -m pip install --upgrade pip
@@ -28,11 +28,8 @@ artifacts:
     - screenshots/**/*  # Include screenshots
     - executionlogs/**/*  # Include execution logs
 
-  # Optionally specify file paths to be included as artifacts.
-  discard-paths: yes
+  discard-paths: yes  # Optionally discard paths for cleaner artifact storage
 
 cache:
   paths:
-    - '/root/.cache/pip/**/*'
-
-#yaml for the aws codepipeline
+    - '/root/.cache/pip/**/*'  # Cache pip dependencies to speed up future builds
