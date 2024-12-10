@@ -1,3 +1,4 @@
+
 import base64
 
 from docx import Document
@@ -55,13 +56,6 @@ def test_setup(request):
         download_path = os.path.abspath(constants.download_path)
         edge_options = webdriver.EdgeOptions()
         edge_options.add_argument("--inprivate")
-        # edge_options.add_argument("--headless")  # Enable headless mode
-        # edge_options.add_argument("--disable-gpu")  # Disable GPU hardware acceleration (important for headless mode)
-        # Run Edge with the --no-sandbox flag: The DevToolsActivePort file doesn't exist error
-        # sometimes occurs due to restrictions on running Edge in certain environments
-        # edge_options.binary_location = "/usr/bin/microsoft-edge"  # Path from 'which' command
-        edge_options.add_argument('--no-sandbox')
-        edge_options.add_argument('--disable-dev-shm-usage')
         edge_options.add_experimental_option('prefs', {
             'download.default_directory': download_path,
             'download.prompt_for_download': False,
