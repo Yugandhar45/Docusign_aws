@@ -3,12 +3,34 @@ version: 0.2
 phases:
   install:
     commands:
-      - python -m pip install --upgrade pip
-      - pip install -r requirements.txt  # Install dependencies
+      # Install Python 3.9
+      - echo "Installing Python 3.9"
+      - curl -sS https://bootstrap.pypa.io/get-pip.py | python3
+      - python3 -m pip install --upgrade pip
+      - pip install selenium
+      - pip install -r requirements.txt
+      - pip install --upgrade webdriver_manager
+      - pip install --upgrade urllib3
+    displayName: 'Install dependencies'
+
   build:
     commands:
-      - pytest -v -s  # Run tests
+      - echo "Pipeline triggered by: $CODEBUILD_INITIATOR"
+      - echo "Running tests"
+      - cd tests
+      - pytest -v -s -vv -p no:warnings --html=reports/report.html --self-contained-html --capture=tee-sys
+    displayName: 'Run tests'
 
 artifacts:
   files:
-    - '**/*'  # Include all files for deployment (e.g., test results, logs)
+    - '**/*'  # Include all files (e.g., test results, logs)
+    - reports/report.html  # Include the HTML test report
+    - screenshots/**/*  # Include screenshots
+    - executionlogs/**/*  # Include execution logs
+
+  # Optionally specify file paths to be included as artifacts.
+  discard-paths: yes
+
+cache:
+  paths:
+    - '/root/.cache/pip/**/*'
