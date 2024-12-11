@@ -11,6 +11,7 @@ phases:
       - pip install -r requirements.txt
       - pip install --upgrade webdriver_manager
       - pip install --upgrade urllib3
+      - pip install pytest pytest-html pytest-azurepipelines
     displayName: 'Install dependencies'
 
   build:
@@ -24,9 +25,9 @@ phases:
 artifacts:
   files:
     - '**/*'  # Include all files (e.g., test results, logs)
-    - reports/report.html  # Include the HTML test report
-    - screenshots/**/*  # Include screenshots
-    - executionlogs/**/*  # Include execution logs
+    - tests/reports/report.html  # Include the HTML test report
+    - tests/screenshots/**/*  # Include screenshots
+    - tests/executionlogs/**/*  # Include execution logs
 
   discard-paths: yes  # Optionally discard paths for cleaner artifact storage
 
