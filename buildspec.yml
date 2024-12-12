@@ -3,34 +3,37 @@ version: 0.2
 phases:
   install:
     commands:
-      # Install Python 3.9 and upgrade pip
-      - echo "Installing Python 3.9"
+      - echo "Installing Python 3.9 and dependencies"
       - curl -sS https://bootstrap.pypa.io/get-pip.py | python3
       - python3 -m pip install --upgrade pip
-      - pip install selenium
       - pip install -r requirements.txt
+      - pip install selenium
+      - pip install pytest pytest-html
       - pip install --upgrade webdriver_manager
-      - pip install --upgrade urllib3
-      - pip install pytest pytest-html pytest-azurepipelines
-    displayName: 'Install dependencies'
+      - echo "Dependencies installed successfully"
 
   build:
     commands:
-      - echo "Pipeline triggered by: $CODEBUILD_INITIATOR"
-      - echo "Running tests"
+      - echo "Starting tests"
       - cd tests
-      - pytest -v -s -vv -p no:warnings --html=reports/report.html --self-contained-html --capture=tee-sys
-    displayName: 'Run tests'
+      - pytest -v -s --html=reports/report.html --self-contained-html --capture=tee-sys
+      - echo "Tests completed"
 
 artifacts:
   files:
-    - '**/*'  # Include all files (e.g., test results, logs)
-    - tests/reports/report.html  # Include the HTML test report
-    - tests/screenshots/**/*  # Include screenshots
-    - tests/executionlogs/**/*  # Include execution logs
-
-  discard-paths: yes  # Optionally discard paths for cleaner artifact storage
+    - '**/*'  # Include all files for deployment
+    - tests/reports/report.html  # Test reports
+    - tests/screenshots/**/*  # Screenshots
+    - tests/executionlogs/**/*  # Logs
 
 cache:
   paths:
-    - '/root/.cache/pip/**/*'  # Cache pip dependencies to speed up future builds
+    - '/root/.cache/pip/**/*'  # Cache Python packages for faster builds
+
+
+#
+#This file ensures:
+#
+#Dependencies are installed.
+#Tests are executed.
+#Artifacts (like reports, logs) are created.
