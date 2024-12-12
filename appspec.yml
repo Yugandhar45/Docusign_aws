@@ -1,0 +1,38 @@
+version: 0.0
+os: windows
+
+files:
+  # Source directories (from your repo) and destination directories on the instance
+  - source: /tests
+    destination: C:\CodeDeploy\tests
+  - source: /tests/reports
+    destination: C:\CodeDeploy\reports
+  - source: /tests/screenshots
+    destination: C:\CodeDeploy\screenshots
+  - source: /tests/executionlogs
+    destination: C:\CodeDeploy\executionlogs
+
+hooks:
+  # Script to execute before install (can be used to prepare the environment)
+  BeforeInstall:
+    - location: scripts/before_install.ps1
+      timeout: 300
+      runas: Administrator
+
+  # Script to execute after installation (e.g., to clean up or configure services)
+  AfterInstall:
+    - location: scripts/after_install.ps1
+      timeout: 300
+      runas: Administrator
+
+  # Script to start your application or test suite
+  ApplicationStart:
+    - location: scripts/start_application.ps1
+      timeout: 300
+      runas: Administrator
+
+  # Script to execute once deployment is complete (for test execution)
+  ValidateService:
+    - location: scripts/validate_service.ps1
+      timeout: 300
+      runas: Administrator
